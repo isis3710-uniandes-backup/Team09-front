@@ -35,6 +35,7 @@ app.use(bodyParser.json());
 //User routes
 app.get("/api/users/", users.getUsers);
 app.get("/api/users/:userid", users.getUser);
+app.get("/api/users/name/:username", users.getUserByName);
 app.post("/api/users/create", users.postUser);
 app.put("/api/users/edit/:userid",users.putUser);
 app.delete("/api/users/delete/:userid",users.deleteUser);

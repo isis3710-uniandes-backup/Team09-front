@@ -25,11 +25,22 @@ module.exports={
     });
 
 	},
+	getUserByName: function(req, res){
+		console.log(req.params.username);
+		let name=req.params.username;
+		return db.Users.findAll({attributes:['userID','username','email','password'],where: {username: name}})
+    		.then((user) => res.send(user))
+    		.catch((err) => {
+      		console.log('There was an error querying the user', JSON.stringify(err))
+      	return res.send(err)
+    });
+
+	},
 	postUser: function(req, res){
   		return db.Users.create({ "username":req.body.username, "email":req.body.email, "password":req.body.password })
     		.then((user) => res.send(user))
     		.catch((err) => {
-      	console.log('***There was an error creating a user', JSON.stringify(contact))
+      	console.log('***There was an error creating a user')
       return res.status(400).send(err)
     });
 
