@@ -33,6 +33,8 @@ Object.keys(db).forEach(modelName => {
   }
 });
 
+db.Users.belongsToMany(db.Groups,{through: db.UsersInGroups, as: 'users', foreignKey: 'userId'});
+db.Groups.belongsToMany(db.Users,{through: db.UsersInGroups, as: 'groups', foreignKey: 'groupId'});
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
