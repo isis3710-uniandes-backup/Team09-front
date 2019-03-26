@@ -33,67 +33,67 @@ app.use(bodyParser.json());
 
 //Declatarions that link the resources to the main app express manager.
 //User routes
-app.get("/users/", users.getUsers);
-app.get("/users/:userid", users.getUser);
-app.post("/users/create", users.postUser);
-app.put("/users/edit/:userid",users.putUser);
-app.delete("/users/delete/:userid",users.deleteUser);
+app.get("/api/users/", users.getUsers);
+app.get("/api/users/:userid", users.getUser);
+app.post("/api/users/create", users.postUser);
+app.put("/api/users/edit/:userid",users.putUser);
+app.delete("/api/users/delete/:userid",users.deleteUser);
 
 //Group routes
-app.get("/groups/",groups.getGroups);
-app.get("/groups/:groupid",groups.getGroup);
-app.post("/groups/create", groups.postGroup);
-app.delete("/groups/delete/:groupid",groups.deleteGroup);
+app.get("/api/groups/",groups.getGroups);
+app.get("/api/groups/:groupid",groups.getGroup);
+app.post("/api/groups/create", groups.postGroup);
+app.delete("/api/groups/delete/:groupid",groups.deleteGroup);
 
 //Room routes
-app.get("/rooms/", rooms.getRooms);
-app.get("/rooms/:roomid", rooms.getRoom);
-app.post("/rooms/create", rooms.postRoom);
-app.put("/rooms/edit/:roomid", rooms.putRoom);
-app.delete("/rooms/delete/:roomid",rooms.deleteRoom);
+app.get("/api/rooms/", rooms.getRooms);
+app.get("/api/rooms/:roomid", rooms.getRoom);
+app.post("/api/rooms/create", rooms.postRoom);
+app.put("/api/rooms/edit/:roomid", rooms.putRoom);
+app.delete("/api/rooms/delete/:roomid",rooms.deleteRoom);
 
 //Canvas routes
-app.get("/canvas/", canvas.getCanvas);
-app.get("/canvas/:id", canvas.getCanva);
-app.post("/canvas/create", canvas.postCanvas);
-app.put("/canvas/edit/:id",canvas.putCanvas);
-app.delete("/canvas/delete/:id",canvas.deleteCanvas);
+app.get("/api/canvas/", canvas.getCanvas);
+app.get("/api/canvas/:id", canvas.getCanva);
+app.post("/api/canvas/create", canvas.postCanvas);
+app.put("/api/canvas/edit/:id",canvas.putCanvas);
+app.delete("/api/canvas/delete/:id",canvas.deleteCanvas);
 
 //Chat routes
-app.get("/chats/", chats.getChats);
-app.get("/chats/:chatid", chats.getChat);
-app.post("/chats/create", chats.postChat);
-app.delete("/chats/delete/:chatid", chats.deleteChat);
+app.get("/api/chats/", chats.getChats);
+app.get("/api/chats/:chatid", chats.getChat);
+app.post("/api/chats/create", chats.postChat);
+app.delete("/api/chats/delete/:chatid", chats.deleteChat);
 
 //Messages routes
-app.get("/messages/", messages.getMessages);
-app.get("/messages/:messageid", messages.getMessage);
-app.post("/messages/send", messages.postMessage);
-app.put("/messages/edit/:messageid",messages.putMessage);
-app.delete("/messages/delete/:messageid",messages.deleteMessage);
+app.get("/api/messages/", messages.getMessages);
+app.get("/api/messages/:messageid", messages.getMessage);
+app.post("/api/messages/send", messages.postMessage);
+app.put("/api/messages/edit/:messageid",messages.putMessage);
+app.delete("/api/messages/delete/:messageid",messages.deleteMessage);
 
 //Sessions routes
-app.get("/sessions/", sessions.getSessions);
-app.post("/sessions/create", sessions.postSession);
-app.put("/sessions/:userid", sessions.putSession);
-app.delete("/sessions/delete/:sessionid", sessions.deleteSession);
+app.get("/api/sessions/", sessions.getSessions);
+app.post("/api/sessions/create", sessions.postSession);
+app.put("/api/sessions/:userid", sessions.putSession);
+app.delete("/api/sessions/delete/:sessionid", sessions.deleteSession);
 
 //Comments routes
-app.get("/comments/", comments.getComments);
-app.get("/comments/:commentid", comments.getComment);
-app.post("/comments/create", comments.postComment);
-app.put("/comments/edit/:commentid", comments.putComment);
-app.delete("/comments/delete/:commentid",comments.deleteComment);
+app.get("/api/comments/", comments.getComments);
+app.get("/api/comments/:commentid", comments.getComment);
+app.post("/api/comments/create", comments.postComment);
+app.put("/api/comments/edit/:commentid", comments.putComment);
+app.delete("/api/comments/delete/:commentid",comments.deleteComment);
 
 //Actions routes
-app.get("/actions/", actions.getActions);
-app.get("/actions/:svgPath", actions.getAction);
-app.post("/actions/create", actions.postAction);
-app.delete("/actions/delete/:actionid", actions.deleteAction);
+app.get("/api/actions/", actions.getActions);
+app.get("/api/actions/:svgPath", actions.getAction);
+app.post("/api/actions/create", actions.postAction);
+app.delete("/api/actions/delete/:actionid", actions.deleteAction);
 
 
-app.post("/groups/admins", groups.postAdmin);
-app.post("/groups/users", groups.postUser);
+app.post("/api/groups/admins", groups.postAdmin);
+app.post("/api/groups/users", groups.postUser);
 
 app.listen(port,() => {
 	console.log('Serverapp listening on port 3001 !');
