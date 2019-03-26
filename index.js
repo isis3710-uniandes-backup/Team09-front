@@ -91,10 +91,10 @@ app.get("/actions/:svgPath", actions.getAction);
 app.post("/actions/create", actions.postAction);
 app.delete("/actions/delete/:actionid", actions.deleteAction);
 
-/*FIX THIS MANY TO MANY RELATIONSHIP FUTURE TODO
+
 app.post("/groups/admins", groups.postAdmin);
 app.post("/groups/users", groups.postUser);
-*/
+
 app.listen(port,() => {
 	console.log('Serverapp listening on port 3001 !');
 });
