@@ -1,6 +1,5 @@
 import React from 'react';
 import '../css/login.css'
-import { Script } from 'vm';
 const axios = require('axios');
 
 export default class Login extends React.Component {
@@ -10,6 +9,10 @@ export default class Login extends React.Component {
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleForgotPassword=this.handleForgotPassword.bind(this);
+    this.handleRegister =this.handleRegister.bind(this);
+    this.sendForgotEmail=this.sendForgotEmail.bind(this);
+    this.submitNewUser =this.submitNewUser.bind(this);
   }
 
   handleInputChange(event) {
@@ -55,6 +58,7 @@ export default class Login extends React.Component {
 
   sendForgotEmail(event){
     event.preventDefault();
+    //TODO
     alert('Email sent!');
   }
 
