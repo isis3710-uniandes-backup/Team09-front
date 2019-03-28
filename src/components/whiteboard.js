@@ -116,16 +116,26 @@ export default class Whiteboard extends React.Component {
     }
     render() {
         return (
+          <div>
             <div>
-                <div id="upper">
-                  
-                    <button class="button" align="left">LogicDrawing</button>
-                    <button class="button" align="left">My Groups</button>      
-
-                    <button class="button" align="right">{UserProfile.getName()}</button>
-                    <button class="button" align="right">Log out</button>
-                  
-                </div>
+              <nav class="navbar navbar-expand-sm bg-light">
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">LogicDrawing</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">My Groups</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">{UserProfile.getName()}</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">Log Out</a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+            <div>
                 <canvas class="whiteboard"></canvas>
                 <div class="colors">
                     <div class="color black"></div>
@@ -135,6 +145,7 @@ export default class Whiteboard extends React.Component {
                     <div class="color yellow"></div>
                 </div>
             </div>
+          </div>
         );
     }
 

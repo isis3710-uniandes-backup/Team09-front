@@ -1,7 +1,4 @@
 var UserProfile = (function() {
-  var name = "";
-  var id = 0;
-  var email="";
 
   var getName = function() {
     return this.name;    // Or pull this from cookie/localStorage
@@ -30,13 +27,23 @@ var UserProfile = (function() {
     // Also set this in cookie/localStorage
   };
 
+  var getPictureSrc = function(){
+    return this.profilePicture;
+  };
+
+  var setPictureSrc = function(profilePicture){
+    this.profilePicture = profilePicture;
+  };
+
   return {
     getName:getName,
     setName:setName,
     getID:getID,
     setID:setID,
     getEmail:getEmail,
-    setEmail:setEmail
+    setEmail:setEmail,
+    getPictureSrc:getPictureSrc,
+    setPictureSrc:setPictureSrc
   }
 
 })();

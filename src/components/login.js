@@ -31,22 +31,22 @@ export default class Login extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     console.log('About to axios?')
-   var rr, rr1, rr2, rr3;
+   var rr = new Array(4);
     axios.get('/api/users/name/'+ this.state.username).then(function(response){
-      rr=response.data[0].password;
-      rr1=response.data[0].username;
-      rr2=response.data[0].userID;
-      rr3=response.data[0].email;
+      rr[0]=response.data[0].password;
+      rr[1]=response.data[0].username;
+      rr[2]=response.data[0].userID;
+      rr[3]=response.data[0].email;
       console.log(rr);
     }).catch(function(error){
       console.log(error);
     }).then(()=>{
-      if(rr=== this.state.password){
-        UserProfile.setName(rr1);
-        UserProfile.setID(rr2);
-        UserProfile.setEmail(rr3);
-        ReactDOM.render(<Whiteboard/>, document.getElementById("root"));
+      if(rr[0]=== this.state.password){
+        UserProfile.setName(rr[1]);
+        UserProfile.setID(rr[2]);
+        UserProfile.setEmail(rr[3]);
         alert("Success!");
+        ReactDOM.render(<Whiteboard/>, document.getElementById("root"));
         console.log(UserProfile.getName());
         console.log(UserProfile.getID());
         console.log(UserProfile.getEmail());
