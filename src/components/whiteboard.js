@@ -2,6 +2,7 @@ import React from 'react';
 import '../css/whiteboard.css';
 import socketIOClient from "socket.io-client";
 import { ENOSPC } from 'constants';
+import UserProfile from "./UserProfile";
 
 export default class Whiteboard extends React.Component {
     componentDidMount(){
@@ -116,7 +117,16 @@ export default class Whiteboard extends React.Component {
     render() {
         return (
             <div>
-                <canvas class="whiteboard" ></canvas>
+                <div id="upper">
+                  
+                    <button class="button" align="left">LogicDrawing</button>
+                    <button class="button" align="left">My Groups</button>      
+
+                    <button class="button" align="right">{UserProfile.getName()}</button>
+                    <button class="button" align="right">Log out</button>
+                  
+                </div>
+                <canvas class="whiteboard"></canvas>
                 <div class="colors">
                     <div class="color black"></div>
                     <div class="color red"></div>
