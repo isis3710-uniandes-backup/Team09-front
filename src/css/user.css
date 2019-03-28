@@ -2,14 +2,6 @@
     width: 320px;
     height: 320px;
 }
-.profilePicture:before {
-    content: ' ';
-    display: block;
-    position: absolute;
-    height: 50px;
-    width: 50px;
-    background-image: url(https://www.qualiscare.com/wp-content/uploads/2017/08/default-user.png);
-}
 .profilePictureContainer, .userInfoContainer{
     border-style: solid grey;
     border-radius: 10px;
@@ -23,6 +15,12 @@
     font-size: 18px;
 
 }
+
+.userInformation{
+    border-style: solid black;
+    border-radius: 25px;
+}
+
 /* The Modal (background) */
 .modal {
     display: none; /* Hidden by default */
@@ -38,7 +36,7 @@
   }
   
   /* Modal Content/Box */
-  .modal-content-pic, .model-content-info {
+  .modal-content-pic {
     background-color: #fefefe;
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;

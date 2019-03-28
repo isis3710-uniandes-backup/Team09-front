@@ -1,10 +1,14 @@
 import React from 'react';
 import '../css/whiteboard.css';
 import socketIOClient from "socket.io-client";
-import { ENOSPC } from 'constants';
 import UserProfile from "./UserProfile";
+import ReactDOM from "react-dom";
 
 export default class Whiteboard extends React.Component {
+      constructor(props){
+        super(props);
+        this.state.userInfo= UserProfile;
+    }
     componentDidMount(){
         
             const endpoint = {
@@ -114,27 +118,18 @@ export default class Whiteboard extends React.Component {
           
           ;
     }
+
+    logOut(){
+      window.location.reload();
+    }
+
+    handleProfile(){
+      ReactDOM.render(<Whiteboard/>, document.getElementById("root"));
+    }
+
     render() {
         return (
           <div>
-            <div>
-              <nav class="navbar navbar-expand-sm bg-light">
-                <ul class="navbar-nav">
-                  <li class="nav-item">
-                    <a class="nav-link" href="#">LogicDrawing</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#">My Groups</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#">{UserProfile.getName()}</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#">Log Out</a>
-                  </li>
-                </ul>
-              </nav>
-            </div>
             <div>
                 <canvas class="whiteboard"></canvas>
                 <div class="colors">
@@ -144,6 +139,12 @@ export default class Whiteboard extends React.Component {
                     <div class="color blue"></div>
                     <div class="color yellow"></div>
                 </div>
+            </div>
+            <div class="navbar">
+              <a href="#">Home</a>
+              <a href="#">News</a>
+              <a href="#" onClick={this.handleProfile}>{this.state.UserProfile.getName()}</a>
+              <a href="#" onClick={this.logOut}>LogOut</a>
             </div>
           </div>
         );

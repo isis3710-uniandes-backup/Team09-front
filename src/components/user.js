@@ -8,7 +8,8 @@ const axios = require('axios');
 export default class User extends React.Component{
     constructor(props){
         super(props);
-        this.state.userInfo= UserProfile;
+        this.state= UserProfile;
+        this.handleSubmitURL = this.handleSubmitURL.bind(this);
     }
     
     componentDidMount(){
@@ -26,7 +27,7 @@ export default class User extends React.Component{
         }
     }
 
-    handleProfilePicture(event){
+    handleEdit(event){
         event.preventDefault();
         var modal = document.getElementById('modalPP');
         modal.style.display = "block";
@@ -40,17 +41,12 @@ export default class User extends React.Component{
 
     handleSubmitURL(event){
         event.preventDefault();
-        axios.put(`http://localhost:3001/api/users/edit/${this.state.UserProfile.getID}`,{
-            'profilePicturePath': this.state.picUrl
-        })
-    }
-
-    handleSubmitInfo(event){
-        event.preventDefault();
-        axios.put(`http://localhost:3001/api/users/edit/${this.state.UserProfile.getID}`,{
-            'username': this.state.newUser,
-            'email': this.state.newEmail,
-            'password': this.state.newPassword
+        var temp = this.state;
+        axios.put(`http://localhost:3001/api/users/edit/${UserProfile.getID()}`,{
+            'profilePicturePath': temp.picUrl,
+            'username': temp.newUser,
+            'email': temp.newEmail,
+            'password': temp.newPassword
         })
     }
 
@@ -76,14 +72,24 @@ export default class User extends React.Component{
                     </nav>
                 </div>
                 <div class="container">
-                    <div class="row">
-                        <div class="col-sm profilePictureContainer">    
-                            <img class="profilePicture" src={this.state.userInfo.getPictureSrc}/>
-                            <button class="updateProfilePicture" onclick={this.handleProfilePicture} align="right">Update Profile Picture</button>
+                    <div class="row userInformation">
+                        <div class="col-md profilePictureContainer">    
+                            <div class="row">
+                                <img class="profilePicture" src="https://www.qualiscare.com/wp-content/uploads/2017/08/default-user.png"/>
+                            </div>
+                            <div class="row">
+                                <button class="updateProfilePicture" onClick={this.handleEdit} align="right">Update Info</button>
+                            </div>
                             <div id="modalPP" class="modal">
                                 <div class="modal-content-pic">
                                     <span class="closeOverlay">&times;</span>
                                     <form onSubmit={this.handleSubmitURL}>
+                                        Insert your new username:<br/>
+                                        <input type="text" name="usern" value={this.state.newUser}/><br/>
+                                        Insert your new email:<br/>
+                                        <input type="text" name="email" value={this.state.newEmail}/><br/>
+                                        Insert your new password:<br/>
+                                        <input type="text" name="passw" value={this.state.newPassword}/><br/>
                                         Insert the URL of the new image:<br/>
                                         <input type="text" name="picUrl" value={this.state.picUrl}/><br/>
                                         <input type="submit" value="Submit"/>
@@ -91,26 +97,11 @@ export default class User extends React.Component{
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm userInfoContainer">
+                        <div class="col-md userInfoContainer">
                             <div class="userInfo">
-                                {this.state.UserProfile.getName}
+                                {this.state.getName()}
                                 <br/>
-                                {this.state.UserProfile.getEmail}
-                            </div>
-                            <button class="updateUserInfo" onclick={this.handleInfoUpdate} align="right">Edit Info</button>
-                            <div id="modalInfo" class="modal">
-                                <div class="modal-content-info">
-                                    <span class="closeOverlay">&times;</span>
-                                    <form onSubmit={this.handleSubmitInfo}>
-                                        Insert your new username:<br/>
-                                        <input type="text" name="usern" value={this.state.newUser}/><br/>
-                                        Insert your new email:<br/>
-                                        <input type="text" name="email" value={this.state.newEmail}/><br/>
-                                        Insert your new password:<br/>
-                                        <input type="text" name="passw" value={this.state.newPassword}/><br/>
-                                        <input type="submit" value="Submit"/>
-                                    </form>
-                                </div>
+                                {this.state.getEmail()}
                             </div>
                         </div>
                     </div>

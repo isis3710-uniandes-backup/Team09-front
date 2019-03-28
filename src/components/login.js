@@ -1,6 +1,6 @@
 import React from 'react';
 import '../css/login.css';
-import Whiteboard from "./whiteboard";
+import User from "./user.js";
 import UserProfile from "./UserProfile";
 import ReactDOM from "react-dom";
 
@@ -46,7 +46,7 @@ export default class Login extends React.Component {
         UserProfile.setID(rr[2]);
         UserProfile.setEmail(rr[3]);
         alert("Success!");
-        ReactDOM.render(<Whiteboard/>, document.getElementById("root"));
+        ReactDOM.render(<User/>, document.getElementById("root"));
         console.log(UserProfile.getName());
         console.log(UserProfile.getID());
         console.log(UserProfile.getEmail());
