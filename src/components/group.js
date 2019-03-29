@@ -1,8 +1,6 @@
 import React from 'react';
 import '../css/group.css';
 import UserProfile from "./UserProfile";
-import UserInGroup from "./userInGroup";
-import RoomInGroup from "./roomInGroup";
 import User from "./user";
 import ReactDOM from "react-dom";
 import Whiteboard from "./whiteboard";
@@ -44,7 +42,15 @@ export default class Group extends React.Component {
 	      console.log(error);
 	    }).then(()=>{
 	    	this.setState({users:consulta});
-	    	console.log(this.state.users);
+				console.log(this.state.users);
+				var list = document.getElementById("listOfUsers");
+            for (var i =0;i< consulta.length; i++){
+                console.log(consulta[i]);
+                var li = document.createElement("li");
+                var text = document.createTextNode(consulta[i].username);
+                li.appendChild(text);
+                list.appendChild(li);
+            }
 	    });
 
 	    var consulta1;
@@ -55,7 +61,15 @@ export default class Group extends React.Component {
 	      console.log(error);
 	    }).then(()=>{
 	    	this.setState({rooms:consulta1});
-	    	console.log(this.state.rooms);
+				console.log(this.state.rooms);
+				var list = document.getElementById("listOfRooms");
+            for (var i =0;i< consulta1.length; i++){
+                console.log(consulta1[i]);
+                var li = document.createElement("li");
+                var text = document.createTextNode(consulta1[i].name);
+                li.appendChild(text);
+                list.appendChild(li);
+            }
 			});
 	}
 
@@ -81,15 +95,19 @@ export default class Group extends React.Component {
 				<div id="container">
 					<div id="left">
 					<h2 id="groupName">{this.state.name}</h2>
-				    	<div id="lista" style={style}>
-				    		{this.state.users.map( (e,i) => <UserInGroup key={i} char={e}/>)}
+				    	<div className="lists" style={style}>
+							<ul id="listOfUsers">
+                                    
+							</ul>
 				    	</div>
 				    <button>Add user</button>
 				    </div>
 				    <div id="right">
 				    <h2>Rooms</h2>
-				    	<div id="lista2" style={style}>
-				    		{this.state.rooms.map( (e,i) => <RoomInGroup key={i} char={e}/>)}
+				    	<div className="lists" style={style}>
+				    		<ul id="listOfRooms">
+                                    
+								</ul>
 				    	</div>
 				    <button>Create new room</button>
 				    </div>
