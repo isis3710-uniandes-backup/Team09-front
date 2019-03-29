@@ -5,10 +5,14 @@ import UserProfile from "./UserProfile";
 import ReactDOM from "react-dom";
 import User from "./user";
 
+const axios =require('axios');
+
 export default class Whiteboard extends React.Component {
       constructor(props){
         super(props);
         this.state= UserProfile;
+        this.handleComment=this.handleComment.bind(this);
+        this.openNav=this.openNav.bind(this);
     }
     componentDidMount(){
         
@@ -127,10 +131,64 @@ export default class Whiteboard extends React.Component {
     handleProfile(){
       ReactDOM.render(<User />, document.getElementById("root"));
     }
+    handleComment(event){
+      event.preventDefault();
+      console.log("hi");
+      axios.post(`http://localhost:3001/api/comments/create/`,{
+        "canvasId": 1,
+        "comm": document.getElementById("commentField").value,
+        "user":UserProfile.getName()
+      })
+    }
+    openNav() {
+      var ul = document.getElementById("commentList");
+      var temp = this;
+      var list;
+      document.getElementById("mySidebar").style.width = "400px";
+      document.getElementById("main").style.marginRight = "400px";
+      axios.get(`http://localhost:3001/api/comments/`).then(function(response){
+          list = response.data;
+      }).catch((err)=>{
+        console.log(err);
+      }).then(()=>{
+          for (var i=0;i<list.length;i++){
+            var li = document.createElement("li");
+            var cont = document.createElement("div");
+            cont.setAttribute("className", "commentBox");
+            cont.appendChild(document.createTextNode(`${list[i].user} says:`));
+            cont.appendChild(document.createElement("br"));
+            cont.appendChild(document.createTextNode(`${list[i].comm}`))
+            li.appendChild(cont);
+            ul.appendChild(li);
+            var spaceLi = document.createElement("li");
+            ul.appendChild(spaceLi);
+          }
+          var commentLi = document.createElement("li");
+          var comment=document.createElement("form");
+          comment.setAttribute("onSubmit", this.handleComment);
+          console.log("created form");
+          var inp = document.createElement("input");
+          inp.setAttribute("type", "text");
+          inp.setAttribute("placeholder", "Input a comment for the canvas!");
+          inp.setAttribute("id", "commentField");
+          comment.appendChild(inp);
+          comment.appendChild(document.createElement("br"));
+          var subm = document.createElement("input");
+          subm.setAttribute("type", "submit");
+          subm.setAttribute("value","Submit");
+          comment.appendChild(subm);
+          commentLi.appendChild(comment);
+          ul.appendChild(commentLi);
+      });
+    }
+    closeNav() {
+      document.getElementById("mySidebar").style.width = "0";
+      document.getElementById("main").style.marginRight= "0";
+    }
 
     render() {
         return (
-          <div>
+          <div id="main">
             <div>
                 <canvas class="whiteboard"></canvas>
                 <div class="colors">
@@ -139,6 +197,19 @@ export default class Whiteboard extends React.Component {
                     <div class="color green"></div>
                     <div class="color blue"></div>
                     <div class="color yellow"></div>
+                </div>
+                <a href="#" class="float">
+                  <i onClick={this.openNav} class="fa fa-envelope my-float"></i>
+                </a>
+                <div class="label-container">
+                  <div class="label-text">Comments</div>
+                  <i class="fa fa-play label-arrow"></i>
+                </div>
+                <div id="mySidebar" class="sidebar">
+                  <a href="#" class="closebtn" onClick={this.closeNav}>&times;</a>
+                  <ul id="commentList">
+
+                  </ul>
                 </div>
             </div>
             <div class="navbar">
