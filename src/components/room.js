@@ -9,9 +9,9 @@ import ReactDOM from "react-dom";
 const axios = require('axios');
 
 export default class Room extends React.Component {
-
+	constructor(props){
     super(props);
-	this.state={
+		this.state={
 		"user":"yo",
 		"roomId":0,
 		"name":"Mi sala magica",
@@ -21,7 +21,8 @@ export default class Room extends React.Component {
 		"message":"",
 		"chatId":0
 
-
+		}
+	}
 	componentDidMount(){
 		const endpoint = {
                 response:false,

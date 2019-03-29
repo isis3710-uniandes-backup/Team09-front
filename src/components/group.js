@@ -31,9 +31,32 @@ export default class Group extends React.Component {
 			console.log(this.state);
 		});
 
+		this.handleCreateNewUser=this.handleCreateNewUser.bind(this);
+		this.handleCreateNewRoom=this.handleCreateNewRoom.bind(this);
+		this.handleOverlayUser=this.handleOverlayUser.bind(this);
+		this.handleOverlayRoom=this.handleOverlayRoom.bind(this);
 	}
 
 	componentDidMount(){
+		var modal = document.getElementById('modalUsers');
+		var modal2=document.getElementById('modalRooms');
+        // When the user clicks on <span> (x), close the modal
+        document.getElementsByClassName("closeOverlay")[0].onclick = function() {
+						modal.style.display = "none";
+				}
+				document.getElementsByClassName("closeOverlay")[1].onclick=function(){
+					modal2.style.display = "none";
+				}
+  
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+						}
+						else if(event.target ==modal2){
+							modal2.style.display ="none";
+						}
+        }
 		var consulta;
 		axios.get('/api/groups/'+ this.state.groupID+'/users').then(function(response){
 			console.log(response.data);
@@ -85,6 +108,57 @@ export default class Group extends React.Component {
 		ReactDOM.render(<User />, document.getElementById("root"));
 	}
 
+	handleOverlayUser(event){
+		event.preventDefault();
+		var modal = document.getElementById('modalUsers');
+		modal.style.display = "block";
+	}	
+
+	handleOverlayRoom(event){
+		event.preventDefault();
+		var modal = document.getElementById('modalRooms');
+		modal.style.display = "block";
+	}
+
+	handleCreateNewUser(event){
+		event.preventDefault();
+		var temp = this.state;
+		var usn= document.getElementById("usernameField").value;
+		var userId;
+		axios.get(`http://localhost:3001/api/users/name/${usn}`).then(function(response){
+				userId = response.data[0].userID;
+		}).catch((err)=>{
+			console.log(err);
+		}).then(()=>{
+			if(document.getElementById("isAdmin").checked){
+				console.log(userId);
+				axios.post(`http://localhost:3001/api/groups/admins`,{
+					'groupId': temp.groupID,
+					'userId': userId
+				})
+				alert(`The user ${usn} was set as admin!`)
+			}
+			else{
+				axios.post(`http://localhost:3001/api/groups/users`,{
+					'groupId': temp.groupID,
+					'userId': userId
+				})
+				alert(`The user ${usn} was set as a member of the group`)
+			}
+			
+		});
+}
+
+handleCreateNewRoom(event){
+	event.preventDefault();
+	var temp =this.state;
+	var roomname = document.getElementById("roomnameField").value;
+	axios.post(`http://localhost:3001/api/rooms/create`,{
+		"name":roomname,
+		"groupId":temp.groupID
+	})
+}
+
 	render(){
 		var style = {
       			overflow: 'scroll',
@@ -100,7 +174,19 @@ export default class Group extends React.Component {
                                     
 							</ul>
 				    	</div>
-				    <button>Add user</button>
+				    <button onClick={this.handleOverlayUser}>Add user to Group</button>
+						<div id="modalUsers" class="modal">
+                <div class="modal-content-pic">
+                	<span class="closeOverlay">&times;</span>
+                  <form onSubmit={this.handleCreateNewUser}>
+                  	Insert your the username of the user:<br/>
+                    <input type="text" name="usern" id="usernameField"/><br/>
+										Will the user be admin? <br/>
+										<input id="isAdmin" type="checkbox" name="admin"/><br/>
+                    <input type="submit" value="Submit"/>
+                  </form>
+               	</div>
+              </div>
 				    </div>
 				    <div id="right">
 				    <h2>Rooms</h2>
@@ -109,8 +195,18 @@ export default class Group extends React.Component {
                                     
 								</ul>
 				    	</div>
-				    <button>Create new room</button>
-				    </div>
+							<button onClick={this.handleOverlayRoom}>Add user to Group</button>
+							<div id="modalRooms" class="modal">
+									<div class="modal-content-pic">
+										<span class="closeOverlay">&times;</span>
+										<form onSubmit={this.handleCreateNewRoom}>
+											Insert the name of the room:<br/>
+											<input type="text" name="roomn" id="roomnameField"/><br/>
+											<input type="submit" value="Submit"/>
+										</form>
+									</div>
+								</div>
+							</div>
 				</div>
 				<nav class="navbar navbar-expand-sm bg-dark"> 
              <ul class="navbar-nav">
