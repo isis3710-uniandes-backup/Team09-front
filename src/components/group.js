@@ -1,146 +1,195 @@
 import React from 'react';
-import '../css/group.css';
+import '../css/user.css';
 import UserProfile from "./UserProfile";
-import User from "./user";
 import ReactDOM from "react-dom";
-import Whiteboard from "./whiteboard";
-import Room from "./room";
+import Whiteboard from './whiteboard';
+import Group from "./group";
 
 const axios = require('axios');
 
-export default class Group extends React.Component {
-	constructor(props){
-		super(props);
-		var o;
-		this.state={
-			"groupID":16,
-			"name":'Group Users',
-			"users":[],
-			"rooms":[]
-		}
-		axios.get(`http://localhost:3001/api/groups/${this.props.groupid}`).then(function(response){
-			o = response.data;
-		}).catch((err)=>{
-			console.log(err);
-		}).then(()=>{
-			this.state={
-				"groupID":o.id,
-				"name":o.name,
-				"users":[],
-				"rooms":[]
-			}
-			console.log(this.state);
-		});
-
-	}
-
-	componentDidMount(){
-		var consulta;
-		axios.get('/api/groups/'+ this.state.groupID+'/users').then(function(response){
-			console.log(response.data);
-			consulta=response.data;
-	    }).catch(function(error){
-	      console.log(error);
-	    }).then(()=>{
-	    	this.setState({users:consulta});
-				console.log(this.state.users);
-				var list = document.getElementById("listOfUsers");
-            for (var i =0;i< consulta.length; i++){
-                console.log(consulta[i]);
-                var li = document.createElement("li");
-                var text = document.createTextNode(consulta[i].username);
-                li.appendChild(text);
-                list.appendChild(li);
+export default class User extends React.Component{
+    constructor(props){
+        super(props);
+        this.state= UserProfile;
+        this.handleSubmitURL = this.handleSubmitURL.bind(this);
+        this.createNewGroup = this.createNewGroup.bind(this);
+        this.createNewGroupOverlay = this.createNewGroupOverlay.bind(this);
+    }
+    
+    componentDidMount(){
+        var modal = document.getElementById('modalPP');
+        var modalGroup =document.getElementById('modalGroup');
+        // When the user clicks on <span> (x), close the modal
+        document.getElementsByClassName("closeOverlay")[0].onclick = function() {
+            modal.style.display = "none";
+        }
+        document.getElementsByClassName("closeOverlay")[1].onclick=function(){
+            modalGroup.style.display="none";
+        }
+  
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
             }
-	    });
-
-	    var consulta1;
-		axios.get('/api/groups/'+ this.state.groupID+'/rooms').then(function(response){
-			console.log(response.data);
-			consulta1=response.data;
-	    }).catch(function(error){
-	      console.log(error);
-	    }).then(()=>{
-	    	this.setState({rooms:consulta1});
-				console.log(this.state.rooms);
-				var list = document.getElementById("listOfRooms");
-            for (var i =0;i< consulta1.length; i++){
-                console.log(consulta1[i]);
+            else if (event.target ==modalGroup){
+                modalGroup.style.display="none";
+            }
+        }
+        var myGroups;
+        axios.get(`http://localhost:3001/api/groups/user/${UserProfile.getID()}`).then(function(response){
+            myGroups=response.data;
+            console.log(myGroups);
+        }).catch(function(err){
+            console.log(err);
+        }).then(()=>{
+            var list = document.getElementById("listOfGroups");
+            for (var i =0;i< myGroups.length; i++){
+                console.log(myGroups[i]);
                 var li = document.createElement("li");
                 var a = document.createElement('a');
-                a.appendChild(document.createTextNode(consulta1[i].name));
-                var text = document.createTextNode(consulta1[i].name);
-                //li.appendChild(text);
-                //list.appendChild(li);
+                a.appendChild(document.createTextNode(myGroups[i].name));
+                a.href= "#";
                 a.setAttribute("className", "groupNames")
-                a.setAttribute("id", `room-${consulta1[i].roomId}`);
-                a.onclick = this.handleRoomGo.bind(consulta1[i].roomId);
+                a.setAttribute("id", `group-${myGroups[i].id}`);
+                a.onclick = this.handleGroupGo.bind(myGroups[i].id);
                 li.appendChild(a);
                 list.appendChild(li);
             }
-			});
-	}
+        });
 
-	handleRoomGo(id){
-        ReactDOM.render(<Room roomId={id}/>, document.getElementById("root"))
     }
 
-	logOut(){
-		window.location.reload();
-	}
+    handleGroupGo(id){
+        ReactDOM.render(<Group groupid={id}/>, document.getElementById("root"))
+    }
 
-	goToDrawing(){
-		ReactDOM.render(<Whiteboard />, document.getElementById("root"));
-	}
+    handleEdit(event){
+        event.preventDefault();
+        var modal = document.getElementById('modalPP');
+        modal.style.display = "block";
+    }
 
-	goToUser(){
-		ReactDOM.render(<User />, document.getElementById("root"));
-	}
+    handleSubmitURL(event){
+        event.preventDefault();
+        var temp = this.state;
+        axios.put(`http://localhost:3001/api/users/edit/${UserProfile.getID()}`,{
+            'profilePicturePath': temp.picUrl,
+            'username': temp.newUser,
+            'email': temp.newEmail,
+            'password': temp.newPassword
+        });
+    }
 
-	render(){
-		var style = {
-      			overflow: 'scroll',
-      			height: '400px'
-    		};
-		return(
-			<div>
-				<div id="container">
-					<div id="left">
-					<h2 id="groupName">{this.state.name}</h2>
-				    	<div className="lists" style={style}>
-							<ul id="listOfUsers">
+    logOut(){
+        window.location.reload();
+      }
+
+    goToDrawing(){
+        ReactDOM.render(<Whiteboard />, document.getElementById("root"));
+    }
+    
+    createNewGroupOverlay(event){
+        event.preventDefault();
+        var modal = document.getElementById('modalGroup');
+        modal.style.display = "block";
+    }
+
+    createNewGroup(event){
+        event.preventDefault();
+        console.log("Passi");
+        var temp = this.state;
+        axios.post(`http://localhost:3001/api/groups/create`,{
+            'name': document.getElementById("gName").value
+        });
+    }
+
+    render(){
+        return(
+            <div>
+                <nav class="navbar navbar-expand-sm bg-dark">
+                        <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">LogicDrawing</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onClick={this.goToDrawing}>Canvas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">{UserProfile.getName()}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onClick={this.logOut}>Log Out</a>
+                        </li>
+                        </ul>
+                    </nav>
+                <div>
+                    
+                </div>
+                <div class="container">
+                    <div class="row userInformation">
+                        <div class="col-md profilePictureContainer">    
+                            <div class="row">
+                                <img class="profilePicture" src="https://www.qualiscare.com/wp-content/uploads/2017/08/default-user.png"/>
+                            </div>
+                            <div class="row">
+                                <button class="updateProfilePicture" onClick={this.handleEdit} align="right">Update Info</button>
+                            </div>
+                            <div id="modalPP" class="modal">
+                                <div class="modal-content-pic">
+                                    <span class="closeOverlay">&times;</span>
+                                    <form onSubmit={this.handleSubmitURL}>
+                                        Insert your new username:<br/>
+                                        <input type="text" name="usern" value={this.state.newUser}/><br/>
+                                        Insert your new email:<br/>
+                                        <input type="text" name="email" value={this.state.newEmail}/><br/>
+                                        Insert your new password:<br/>
+                                        <input type="text" name="passw" value={this.state.newPassword}/><br/>
+                                        Insert the URL of the new image:<br/>
+                                        <input type="text" name="picUrl" value={this.state.picUrl}/><br/>
+                                        <input type="submit" value="Submit"/>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md userInfoContainer">
+                            <div class="userInfo">
+                                {this.state.getName()}
+                                <br/>
+                                {this.state.getEmail()}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-bg userGroups">
+                            <div class="myGroups">
+                                <h2>My Groups</h2>
+                                <ul id="listOfGroups">
                                     
-							</ul>
-				    	</div>
-				    <button>Add user</button>
-				    </div>
-				    <div id="right">
-				    <h2>Rooms</h2>
-				    	<div className="lists" style={style}>
-				    		<ul id="listOfRooms">
-                                    
-							</ul>
-				    	</div>
-				    <button>Create new room</button>
-				    </div>
-				</div>
-				<nav class="navbar navbar-expand-sm bg-dark"> 
-             <ul class="navbar-nav">
-               <li class="nav-item">
-                  <a class="nav-link" href="#">LogicDrawing</a>
-                </li>
-                <li class="nav-item">
-                	<a class="nav-link" href="#" onClick={this.goToDrawing}>Canvas</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#" onClick={this.goToUser}>{UserProfile.getName()}</a>
-               	</li>
-                <li class="nav-item">
-                   <a class="nav-link" href="#" onClick={this.logOut}>Log Out</a>
-                </li>
-          	</ul>
-        </nav>
-			</div>
-		);
-	}
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-bg">
+                        <button onClick={this.createNewGroupOverlay} >Create new group</button>
+                                <div id="modalGroup" class="modal">
+                                    <div class="modal-content-pic">
+                                        <span class="closeOverlay">&times;</span>
+                                        <form onSubmit={this.createNewGroup}>
+                                            Insert the name of the new group:<br/>
+                                            <input id="gName" type="text" name="groupn"/><br/>
+                                            <input type="submit" value="Submit"/>
+                                        </form>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-bg recentDrawings">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 }
