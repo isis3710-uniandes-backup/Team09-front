@@ -39,11 +39,15 @@ Abrir la url [http://localhost:3000](http://localhost:3000) para verlo en el bro
 Nuestro programa por el momento ofrece las siguiente funcionalidades a los usuarios:
 - Crear usuarios, manejar su username, email, contraseña y foto de perfil al usuario como desee (cambiarla, etc).
 - Dibujar de manera grupal con todos los otros usuarios conectados en un super canvas. Por ahora el manejo de multiples canvas *no* está implementado.
-- Comentar en un canvas y ver los comentarios. Editar los comentarios y borrar sus comentarios también es permitido.
+- Comentar en un canvas y ver los comentarios. Editar los comentarios y borrar sus comentarios se permitirá pronto.
 - Chatear en un room con los otros usuarios conectados al chat.
 - Revisar mis grupos de manera que pueda acceder a cada uno individualmente y ver los usuarios de éste así como sus rooms.
 - Crear grupos y asignar nuevos usuarios a los grupos, de modo admin o no admin.
 - Revisar sus dibujos más recientes (por ahora sólo aparece el único dibujo que tenemos habilitado).
+
+## 5) Disclaimer
+
+El api de nuestro programa permite hacer mucho más que las funcionalidades implementadas, sin embargo, para el funcionamiento de nuestra aplicación, muchas de las funcionalidades del API No son necesarias. Por ejemplo, al usuario no le interesa borrar su usuario o el canvas, así como no le interesa ver el registro de todos los usuarios sobre un canvas por el momento. Para una entrega futura, quizá sería interesante revisar estos conceptos como "Funcionalidades extra".
 
 
 
