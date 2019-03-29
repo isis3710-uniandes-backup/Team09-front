@@ -3,16 +3,36 @@ import '../css/group.css';
 import UserProfile from "./UserProfile";
 import UserInGroup from "./userInGroup";
 import RoomInGroup from "./roomInGroup";
+import User from "./user";
+import ReactDOM from "react-dom";
+import Whiteboard from "./whiteboard";
 
 const axios = require('axios');
 
 export default class Group extends React.Component {
+	constructor(props){
+		super(props);
+		var o;
+		this.state={
+			"groupID":16,
+			"name":'Group Users',
+			"users":[],
+			"rooms":[]
+		}
+		axios.get(`http://localhost:3001/api/groups/${this.props.groupid}`).then(function(response){
+			o = response.data;
+		}).catch((err)=>{
+			console.log(err);
+		}).then(()=>{
+			this.state={
+				"groupID":o.id,
+				"name":o.name,
+				"users":[],
+				"rooms":[]
+			}
+			console.log(this.state);
+		});
 
-	state={
-		"groupID":30,
-		"name":'Ohaio',
-		"users":[],
-		"rooms":[]
 	}
 
 	componentDidMount(){
@@ -36,29 +56,31 @@ export default class Group extends React.Component {
 	    }).then(()=>{
 	    	this.setState({rooms:consulta1});
 	    	console.log(this.state.rooms);
-	    });
+			});
+	}
+
+	logOut(){
+		window.location.reload();
+	}
+
+	goToDrawing(){
+		ReactDOM.render(<Whiteboard />, document.getElementById("root"));
+	}
+
+	goToUser(){
+		ReactDOM.render(<User />, document.getElementById("root"));
 	}
 
 	render(){
-		var text=this.state.name+"' users";
 		var style = {
       			overflow: 'scroll',
       			height: '400px'
     		};
 		return(
 			<div>
-				<div id="upper">
-                  
-                    <button class="button" align="left">LogicDrawing</button>
-                    <button class="button" align="left">My Groups</button>      
-
-                    <button class="button" align="right">{UserProfile.getName()}</button>
-                    <button class="button" align="right">Log out</button>
-                  
-                </div>
 				<div id="container">
 					<div id="left">
-					<h2>{text}</h2>
+					<h2 id="groupName">{this.state.name}</h2>
 				    	<div id="lista" style={style}>
 				    		{this.state.users.map( (e,i) => <UserInGroup key={i} char={e}/>)}
 				    	</div>
@@ -72,6 +94,22 @@ export default class Group extends React.Component {
 				    <button>Create new room</button>
 				    </div>
 				</div>
+				<nav class="navbar navbar-expand-sm bg-dark"> 
+             <ul class="navbar-nav">
+               <li class="nav-item">
+                  <a class="nav-link" href="#">LogicDrawing</a>
+                </li>
+                <li class="nav-item">
+                	<a class="nav-link" href="#" onClick={this.goToDrawing}>Canvas</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#" onClick={this.goToUser}>{UserProfile.getName()}</a>
+               	</li>
+                <li class="nav-item">
+                   <a class="nav-link" href="#" onClick={this.logOut}>Log Out</a>
+                </li>
+          	</ul>
+        </nav>
 			</div>
 		);
 	}

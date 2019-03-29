@@ -3,11 +3,12 @@ import '../css/whiteboard.css';
 import socketIOClient from "socket.io-client";
 import UserProfile from "./UserProfile";
 import ReactDOM from "react-dom";
+import User from "./user";
 
 export default class Whiteboard extends React.Component {
       constructor(props){
         super(props);
-        this.state.userInfo= UserProfile;
+        this.state= UserProfile;
     }
     componentDidMount(){
         
@@ -124,7 +125,7 @@ export default class Whiteboard extends React.Component {
     }
 
     handleProfile(){
-      ReactDOM.render(<Whiteboard/>, document.getElementById("root"));
+      ReactDOM.render(<User />, document.getElementById("root"));
     }
 
     render() {
@@ -142,8 +143,8 @@ export default class Whiteboard extends React.Component {
             </div>
             <div class="navbar">
               <a href="#">Home</a>
-              <a href="#">News</a>
-              <a href="#" onClick={this.handleProfile}>{this.state.UserProfile.getName()}</a>
+              <a href="#">Canvas</a>
+              <a href="#" onClick={this.handleProfile}>{this.state.getName()}</a>
               <a href="#" onClick={this.logOut}>LogOut</a>
             </div>
           </div>

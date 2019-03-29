@@ -2,6 +2,8 @@ import React from 'react';
 import '../css/user.css';
 import UserProfile from "./UserProfile";
 import ReactDOM from "react-dom";
+import Whiteboard from './whiteboard';
+import Group from "./group";
 
 const axios = require('axios');
 
@@ -25,6 +27,32 @@ export default class User extends React.Component{
                 modal.style.display = "none";
             }
         }
+        var myGroups;
+        axios.get(`http://localhost:3001/api/groups/user/${UserProfile.getID()}`).then(function(response){
+            myGroups=response.data;
+            console.log(myGroups);
+        }).catch(function(err){
+            console.log(err);
+        }).then(()=>{
+            var list = document.getElementById("listOfGroups");
+            for (var i =0;i< myGroups.length; i++){
+                console.log(myGroups[i]);
+                var li = document.createElement("li");
+                var a = document.createElement('a');
+                a.appendChild(document.createTextNode(myGroups[i].name));
+                a.href= "#";
+                a.setAttribute("className", "groupNames")
+                a.setAttribute("id", `group-${myGroups[i].id}`);
+                a.onclick = this.handleGroupGo.bind(myGroups[i].id);
+                li.appendChild(a);
+                list.appendChild(li);
+            }
+        });
+
+    }
+
+    handleGroupGo(id){
+        ReactDOM.render(<Group groupid={id}/>, document.getElementById("root"))
     }
 
     handleEdit(event){
@@ -50,26 +78,35 @@ export default class User extends React.Component{
         })
     }
 
+    logOut(){
+        window.location.reload();
+      }
+
+    goToDrawing(){
+        ReactDOM.render(<Whiteboard />, document.getElementById("root"));
+    }
+
     render(){
         return(
             <div>
-                <div>
-                    <nav class="navbar navbar-expand-sm bg-light">
+                <nav class="navbar navbar-expand-sm bg-dark">
                         <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link" href="#">LogicDrawing</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">My Groups</a>
+                            <a class="nav-link" href="#" onClick={this.goToDrawing}>Canvas</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">{UserProfile.getName()}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Log Out</a>
+                            <a class="nav-link" href="#" onClick={this.logOut}>Log Out</a>
                         </li>
                         </ul>
                     </nav>
+                <div>
+                    
                 </div>
                 <div class="container">
                     <div class="row userInformation">
@@ -107,7 +144,12 @@ export default class User extends React.Component{
                     </div>
                     <div class="row">
                         <div class="col-bg userGroups">
-                            
+                            <div class="myGroups">
+                                <h2>My Groups</h2>
+                                <ul id="listOfGroups">
+                                    
+                                </ul>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
