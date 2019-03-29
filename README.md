@@ -1,68 +1,49 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Español
 
-## Available Scripts
+*Este proyecto hace parte del curso "Programación con Tecnologías Web" de Ingeniería de Sistemas de la Universidad de los Andes.
+Fue desarollado en el periodo 2019-1. El equipo 9 está conformado por:  
+James Lake 201531545  
+José Daniel Cárdenas 201313488*
 
-In the project directory, you can run:
+## 1) Descripción del projecto.
+La aplicación a desarrollar se llamará Logic Drawing. Logic Drawing es un espacio colaborativo de diseño, que iniciará como un canvas blanco similar a paint en el cual los usuarios podrán dibujar de manera colaborativa en una sala privada. 
+Logic Drawing parte de la premisa de "Divide y Truinfarás". Nuestro propósito es resolver el problema de "Necesito realizar un dibujo en conjunto con otras personas de manera que pueda compartir en tiempo real este dibujo." Logic Drawing parte de los supuestos que: El dibujo es privado, tiene un administrador que distrubuye tres permisos a los usuarios con los que comparte el dibujo: Read, Write, y Comment, un dibujo debe estar disponible en todos sus estados anteriores, y los usuarios deben ser capaces de comunicarse en alguna forma.
+  
+Logic Drawing ofrece además la posibilidad de exportar de maneras intuitivas los diseños hechos, ver los cambios que se hicieron como un historial de cambios, comentar y chatear en las salas. Logic Drawing pretende expandirse a otras funcionalidades en el tiempo próximo.
 
-### `npm start`
+### Este repositorio corresponde al front de nuestra aplicación.
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## 2) Decisiones de construcción de aplicación:
+Para el desarrollo de nuestra aplicación, estamos usando React y NodeJS. Para las consultas de la base de datos usamos Axios y habilitamos los CORS para poder manejar el front y el back desplados en puertos distintos.
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+## 3) Despliegue 
 
-### `npm test`
+#### Para el despliegue de la aplicación, se deben seguir los siguientes pasos: 
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+#### a) Asegurar tener node en la versión 10.0.0 o mayor, y NPM en la versión 6.0.0 o mayor.
 
-### `npm run build`
+#### b) Clonar el repositorio a su equipo. Los caminos que se usan son relativos a 1 directorio. Deben de estar en el mismo directorio padre el back y el front.
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### c) Instalar las dependencias de Node. Correr el comando npm install. Luego, ejecutar el comando npm run build.
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+#### d) Abrir terminal, y moverse hacia el directorio en donde se encuentra el proyecto. Luego, inicializar el cliente.
+> cd ../Team09-front
+> npm start
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Esto ejecuta nuestro app en modo de desarrollo.<br>
+Abrir la url [http://localhost:3000](http://localhost:3000) para verlo en el browser.
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## 4) Funcionalidades de nuestro programa
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Nuestro programa por el momento ofrece las siguiente funcionalidades a los usuarios:
+- Crear usuarios, manejar su username, email, contraseña y foto de perfil al usuario como desee (cambiarla, etc).
+- Dibujar de manera grupal con todos los otros usuarios conectados en un super canvas. Por ahora el manejo de multiples canvas *no* está implementado.
+- Comentar en un canvas y ver los comentarios. Editar los comentarios y borrar sus comentarios también es permitido.
+- Chatear en un room con los otros usuarios conectados al chat.
+- Revisar mis grupos de manera que pueda acceder a cada uno individualmente y ver los usuarios de éste así como sus rooms.
+- Crear grupos y asignar nuevos usuarios a los grupos, de modo admin o no admin.
+- Revisar sus dibujos más recientes (por ahora sólo aparece el único dibujo que tenemos habilitado).
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
