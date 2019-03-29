@@ -3,6 +3,8 @@ import '../css/room.css';
 import socketIOClient from "socket.io-client";
 import UserProfile from "./UserProfile";
 import CanvasInRoom from "./canvasInRoom";
+import Whiteboard from './whiteboard';
+import User from './user';
 import MessageInChat from "./messageInChat";
 import ReactDOM from "react-dom";
 
@@ -13,7 +15,7 @@ export default class Room extends React.Component {
 		super(props);
 	this.state={
 		"user":"yo",
-		"roomId":0,
+		"roomId":this.props.roomId,
 		"name":"Mi sala magica",
 		"groupId":2,
 		"canvases":[],
@@ -28,7 +30,7 @@ export default class Room extends React.Component {
                 endpoint:"http://localhost:3001"
             }; 
         var socket = socketIOClient(endpoint);
-        socket.on('drawing', onDrawingEvent);
+        //socket.on('drawing', onDrawingEvent);
 
 		var consulta;
 		axios.get('/api/rooms/'+ this.state.groupId+'/canvas').then(function(response){
@@ -82,6 +84,18 @@ export default class Room extends React.Component {
     	});
 	}
 
+	logOut(){
+        window.location.reload();
+      }
+
+    goToDrawing(){
+        ReactDOM.render(<Whiteboard />, document.getElementById("root"));
+    }
+
+    goToUser(){
+		ReactDOM.render(<User />, document.getElementById("root"));
+	}
+
 	render(){
 		var style = {
       			overflow: 'scroll',
@@ -89,14 +103,24 @@ export default class Room extends React.Component {
     		};
 		return(
 			<div>
-				<div id="upper">
-                  
-                    <button class="button" align="left">LogicDrawing</button>
-                    <button class="button" align="left">My Groups</button>      
-
-                    <button class="button" align="right">{UserProfile.getName()}</button>
-                    <button class="button" align="right">Log out</button>
-                  
+				<nav class="navbar navbar-expand-sm bg-dark">
+                        <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">LogicDrawing</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onClick={this.goToDrawing}>Canvas</a>
+                        </li>
+                        <li class="nav-item">
+                  			<a class="nav-link" href="#" onClick={this.goToUser}>{UserProfile.getName()}</a>
+               			</li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onClick={this.logOut}>Log Out</a>
+                        </li>
+                        </ul>
+                    </nav>
+                 <div>
+                    
                 </div>
 				<div id="container">
 					<div id="left">
@@ -108,7 +132,7 @@ export default class Room extends React.Component {
 				    <div id="right">
 				    <h2>Chat</h2>
 				    	<div id="lista2" style={style}>
-				    		
+				    		{this.state.messages.map( (e,i) => <MessageInChat key={i} char={e}/>)}
 				    	</div>
 				    	Message:<input type="text" value={this.state.message}/>
   						<button onClick={this.clickHandler}>

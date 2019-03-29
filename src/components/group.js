@@ -4,6 +4,7 @@ import UserProfile from "./UserProfile";
 import User from "./user";
 import ReactDOM from "react-dom";
 import Whiteboard from "./whiteboard";
+import Room from "./room";
 
 const axios = require('axios');
 
@@ -66,12 +67,23 @@ export default class Group extends React.Component {
             for (var i =0;i< consulta1.length; i++){
                 console.log(consulta1[i]);
                 var li = document.createElement("li");
+                var a = document.createElement('a');
+                a.appendChild(document.createTextNode(consulta1[i].name));
                 var text = document.createTextNode(consulta1[i].name);
-                li.appendChild(text);
+                //li.appendChild(text);
+                //list.appendChild(li);
+                a.setAttribute("className", "groupNames")
+                a.setAttribute("id", `room-${consulta1[i].roomId}`);
+                a.onclick = this.handleRoomGo.bind(consulta1[i].roomId);
+                li.appendChild(a);
                 list.appendChild(li);
             }
 			});
 	}
+
+	handleRoomGo(id){
+        ReactDOM.render(<Room roomId={id}/>, document.getElementById("root"))
+    }
 
 	logOut(){
 		window.location.reload();
@@ -107,7 +119,7 @@ export default class Group extends React.Component {
 				    	<div className="lists" style={style}>
 				    		<ul id="listOfRooms">
                                     
-								</ul>
+							</ul>
 				    	</div>
 				    <button>Create new room</button>
 				    </div>
