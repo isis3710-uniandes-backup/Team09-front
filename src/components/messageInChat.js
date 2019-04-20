@@ -17,8 +17,8 @@ export default class MessageInChat extends React.Component {
 	renderState(){
 		return(
 			<div>
-				<b>User:</b><p>{this.state.user}</p>
-				<b>Msg:</b><p>{this.state.msg}</p>
+				<b>{this.state.user}:</b>
+				<p>{this.state.msg}</p>
 			</div>
 		);
 	}

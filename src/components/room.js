@@ -11,26 +11,37 @@ import ReactDOM from "react-dom";
 const axios = require('axios');
 
 export default class Room extends React.Component {
+
 	constructor(props){
 		super(props);
 	this.state={
-		"user":"yo",
+		"user":UserProfile.getName(),
 		"roomId":this.props.roomId,
 		"name":"Mi sala magica",
 		"groupId":2,
 		"canvases":[],
 		"messages":[],
-		"message":"",
+		"messagesNov":[],
+		"message":"message",
 		"chatId":0
 	}
 }
 	componentDidMount(){
-		const endpoint = {
+
+		var endpoint = {
                 response:false,
                 endpoint:"http://localhost:3001"
-            }; 
-        var socket = socketIOClient(endpoint);
-        //socket.on('drawing', onDrawingEvent);
+        }; 
+
+		var socket = socketIOClient(endpoint);
+
+        socket.on('messages', data=> {
+        	{
+	        	this.setState({messagesNov:data});
+	  			console.log(data);
+  			}
+  			//render(data);
+		});
 
 		var consulta;
 		axios.get('/api/rooms/'+ this.state.groupId+'/canvas').then(function(response){
@@ -54,39 +65,47 @@ export default class Room extends React.Component {
 	    	console.log(this.state.messages);
 	    });
 
-	    function render (data) {
-  		var html = data.map(function(elem, index) {
-    		return(`<div>
-              			<strong>${elem.participante}</strong>
-              			<em>${elem.resultado}</em>
-            		</div>`);
-  			}).join(" ");
-
-  		document.getElementById('lista2').innerHTML = html;
+  		//document.getElementById('lista2').innerHTML = html;
 	}
 
 
-}
 
-	clickHandler1 = ()=> {
-		axios.post('/api/messages/send/',{
-      	user: this.state.user,
-      	msg: this.state.message,
-      	chatId: this.state.chatId
-    	}).then(function(response){
-      		console.log(response);
-    	}).catch(function(error){
-      		console.log(error);
-    	}).then(()=>{
-    		var a=this.state.messages;
-    		a.push({user: this.state.user,msg: this.state.message,chatId: this.state.chatId})
-      		this.setState({messages:a});
-    	});
-	}
+
+	// clickHandler1 = ()=> {
+	// 	axios.post('/api/messages/send/',{
+ //      	user: this.state.user,
+ //      	msg: this.state.message,
+ //      	chatId: this.state.chatId
+ //    	}).then(function(response){
+ //      		console.log(response);
+ //    	}).catch(function(error){
+ //      		console.log(error);
+ //    	}).then(()=>{
+ //    		var a=this.state.messages;
+ //    		a.push({user: this.state.user,msg: this.state.message,chatId: this.state.chatId})
+ //      		this.setState({messages:a});
+ //    	});
+	// }
+
+	handleInputChange(e) {
+        this.setState( {message: e.target.value });
+    }
+
+    addMessage(){
+    	var endpoint = {
+                response:false,
+                endpoint:"http://localhost:3001"
+        }; 
+
+		var socket = socketIOClient(endpoint);
+	    var mensaje=this.state.message;
+	    var ms={id:0, msg:mensaje, user:UserProfile.getName()};
+	    socket.emit('new-message', ms);
+    }
 
 	logOut(){
         window.location.reload();
-      }
+     }
 
     goToDrawing(){
         ReactDOM.render(<Whiteboard />, document.getElementById("root"));
@@ -132,15 +151,16 @@ export default class Room extends React.Component {
 				    <div id="right">
 				    <h2>Chat</h2>
 				    	<div id="lista2" style={style}>
-				    		{this.state.messages.map( (e,i) => <MessageInChat key={i} char={e}/>)}
+				    		{this.state.messagesNov.map( (e,i) => <MessageInChat key={i} char={e}/>)}
 				    	</div>
-				    	Message:<input type="text" value={this.state.message}/>
-  						<button onClick={this.clickHandler}>
-  							Send
-  						</button>
+				    	Message: <input type='text' 
+                   			onChange={e => this.handleInputChange(e)} 
+                   			defaultValue={this.state.message} placeholder="Write something..."/>
+  						<button onClick={this.addMessage.bind(this)}>Send</button>
   						<br/>
 				    </div>
 				</div>
+
 			</div>
 		);
 	}
