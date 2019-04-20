@@ -18,6 +18,8 @@ export default class Group extends React.Component {
 			"users":[],
 			"rooms":[]
 		}
+		this.handleUserAddition =this.handleUserAddition.bind(this);
+		this.handleRoomAddition = this.handleRoomAddition.bind(this);
 	}
 
 	componentWillMount(){
@@ -81,10 +83,32 @@ export default class Group extends React.Component {
 			});
 		});
 	}
+	componentDidMount(){
+		var modal = document.getElementById('modalAddUser');
+		var modalRooms=document.getElementById('modalRooms');
 
-	handleRoomGo(id){
-        ReactDOM.render(<Room roomId={id}/>, document.getElementById("root"))
+    document.getElementsByClassName("closeOverlay")[0].onclick = function() {
+      modal.style.display = "none";
+		}
+		document.getElementsByClassName("closeOverlay")[1].onclick=function(){
+			modalRooms.style.display="none";
+		}
+  
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+    	if (event.target == modal) {
+     		modal.style.display = "none";
+			}
+			else if (event.target ==modalRooms){
+				modalRooms.style.display="none";
+			}
     }
+	}
+
+	handleRoomGo(event){
+		var id = event.srcElement.id.split('-')[1];
+    ReactDOM.render(<Room roomId={id}/>, document.getElementById("root"))
+  }
 
 	logOut(){
 		window.location.reload();
@@ -104,6 +128,12 @@ export default class Group extends React.Component {
 			modal.style.display = "block";
 	}
 
+	handleRoomOverlay(event){
+		event.preventDefault();
+			var modal = document.getElementById('modalRooms');
+			modal.style.display = "block";
+	}
+
 	handleUserAddition(event){
 		let that = this;
 		event.preventDefault();
@@ -111,19 +141,61 @@ export default class Group extends React.Component {
 		var username = document.getElementById("uName").value;
 		var isAdmin = document.getElementById("isAdmin").checked;
 		axios.get('http://localhost:3001/api/users/name/'+username).then(function(response){
-			userId=response.data;
+			userId=response.data[0].userID;
 			console.log(userId);
 		}).catch(function(err){
 			console.log(err);
 		}).then(()=>{
-			axios.post('http://localhost:3001/api/groups/admins', {
+			if(isAdmin){
+				axios.post('http://localhost:3001/api/groups/admins', {
+					"groupId": that.state.groupID, 
+					"userId": userId
+				}).then(()=>{
+					var list = document.getElementById("listOfUsers");
+					var li = document.createElement("li");
+					li.appendChild(document.createTextNode(username));
+					list.appendChild(li);
+				}).catch(function(err){
+					console.log(err);
+				});
+			}
+			else{
+				axios.post('http://localhost:3001/api/groups/users', {
 				"groupId": that.state.groupID, 
-				"userId": UserProfile.getID(),
+				"userId": userId
 			}).then(()=>{
-				
+				var list = document.getElementById("listOfUsers");
+				var li = document.createElement("li");
+				li.appendChild(document.createTextNode(username));
+				list.appendChild(li);
 			}).catch(function(err){
 				console.log(err);
 			});
+			}
+		});
+	}
+
+	handleRoomAddition(event){
+		let that = this;
+		event.preventDefault();
+		var roomname = document.getElementById("roomname").value;
+		axios.post('http://localhost:3001/api/rooms/create', {
+					"groupId": that.state.groupID, 
+					"name": roomname
+		}).then((response)=>{
+			var list = document.getElementById("listOfRooms");
+			var lastID = response.data[1].lastID;
+			var li = document.createElement("li");
+			var a = document.createElement('a');
+			a.appendChild(document.createTextNode(roomname));
+			a.setAttribute("className", "groupNames")
+			a.href="#";
+			a.setAttribute("id", `room-${lastID}`);
+			a.onclick = this.handleRoomGo.bind(lastID);
+			li.appendChild(a);
+			list.appendChild(li);
+		}).catch(function(err){
+				console.log(err);
 		});
 	}
 
@@ -162,7 +234,17 @@ export default class Group extends React.Component {
                                     
 							</ul>
 				    	</div>
-				    <button>Create new room</button>
+							<button class="addRoom" onClick={this.handleRoomOverlay}>Create a New Room</button>
+							<div id="modalRooms" class="modal">
+                <div class="modal-content-pic">
+                  <span class="closeOverlay">&times;</span>
+                  <form onSubmit={this.handleRoomAddition}>
+                    Insert room name:<br/>
+                    <input type="text" name="roomname" id="roomname"/><br/>
+                    <input type="submit" value="Submit"/>
+                  </form>
+                </div>
+              </div>
 				    </div>
 				</div>
 				<nav class="navbar navbar-expand-sm bg-dark"> 
