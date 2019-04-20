@@ -22,7 +22,7 @@ export default class Room extends React.Component {
 		"canvases":[],
 		"messages":[],
 		"messagesNov":[],
-		"message":"message",
+		"message":"",
 		"chatId":0
 	}
 }
@@ -42,6 +42,17 @@ export default class Room extends React.Component {
   			}
   			//render(data);
 		});
+
+		var consulta0;
+		axios.get('/api/rooms/'+ this.state.roomId).then(function(response){
+			console.log(response.data);
+			consulta0=response.data;
+	    }).catch(function(error){
+	      console.log(error);
+	    }).then(()=>{
+	    	this.setState({name:consulta0.name, groupId:consulta0.groupId});
+	    	console.log(this.state.canvases);
+	    });
 
 		var consulta;
 		axios.get('/api/rooms/'+ this.state.groupId+'/canvas').then(function(response){
