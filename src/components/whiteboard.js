@@ -186,6 +186,14 @@ export default class Whiteboard extends React.Component {
       document.getElementById("main").style.marginRight= "0";
     }
 
+    goToUser(){
+      ReactDOM.render(<User />, document.getElementById("root"));
+    }
+
+    logOut(){
+      window.location.reload();
+    }
+
     render() {
         return (
           <div id="main">
@@ -212,12 +220,22 @@ export default class Whiteboard extends React.Component {
                   </ul>
                 </div>
             </div>
-            <div class="navbar">
-              <a href="#">Home</a>
-              <a href="#">Canvas</a>
-              <a href="#" onClick={this.handleProfile}>{this.state.getName()}</a>
-              <a href="#" onClick={this.logOut}>LogOut</a>
-            </div>
+            <nav class="navbar navbar-expand-sm bg-dark">
+                        <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">LogicDrawing</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" >Canvas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onClick={this.goToUser}>{UserProfile.getName()}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onClick={this.logOut}>Log Out</a>
+                        </li>
+                        </ul>
+                    </nav>
           </div>
         );
     }
