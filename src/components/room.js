@@ -112,6 +112,18 @@ export default class Room extends React.Component {
 	    var mensaje=this.state.message;
 	    var ms={id:0, msg:mensaje, user:UserProfile.getName()};
 	    socket.emit('new-message', ms);
+
+	    axios.post('/api/messages/send/',{
+      	user: this.state.user,
+      	msg: this.state.message,
+      	chatId: this.state.chatId
+    	}).then(function(response){
+      		console.log(response);
+    	}).catch(function(error){
+      		console.log(error);
+    	}).then(()=>{
+
+    	});
     }
 
 	logOut(){
@@ -162,6 +174,7 @@ export default class Room extends React.Component {
 				    <div id="right">
 				    <h2>Chat</h2>
 				    	<div id="lista2" style={style}>
+				    		{this.state.messages.map( (e,i) => <MessageInChat key={i} char={e}/>)}
 				    		{this.state.messagesNov.map( (e,i) => <MessageInChat key={i} char={e}/>)}
 				    	</div>
 				    	Message: <input type='text' 
