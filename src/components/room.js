@@ -144,7 +144,8 @@ export default class Room extends React.Component {
       			height: '400px'
     		};
 		return(
-			<div>
+			<main>
+				<h1>{this.state.name} room</h1>
 				<nav class="navbar navbar-expand-sm bg-dark">
                         <ul class="navbar-nav">
                         <li class="nav-item">
@@ -166,26 +167,26 @@ export default class Room extends React.Component {
                 </div>
 				<div id="container">
 					<div id="left">
-					<h2>Canvas in the room</h2>
+					<h2 id="title1">Canvas in the room</h2>
 				    	<div id="lista" style={style}>
 				    		{this.state.canvases.map( (e,i) => <CanvasInRoom key={i} char={e}/>)}
 				    	</div>
 				    </div>
 				    <div id="right">
-				    <h2>Chat</h2>
+				    <h2 id="title2">Chat</h2>
 				    	<div id="lista2" style={style}>
 				    		{this.state.messages.map( (e,i) => <MessageInChat key={i} char={e}/>)}
 				    		{this.state.messagesNov.map( (e,i) => <MessageInChat key={i} char={e}/>)}
 				    	</div>
-				    	Message: <input type='text' 
+				    	Message: <input type='text' aria-label='write'
                    			onChange={e => this.handleInputChange(e)} 
                    			defaultValue={this.state.message} placeholder="Write something..."/>
-  						<button onClick={this.addMessage.bind(this)}>Send</button>
+  						<button id="send" onClick={this.addMessage.bind(this)}>Send</button>
   						<br/>
 				    </div>
 				</div>
 
-			</div>
+			</main>
 		);
 	}
 }

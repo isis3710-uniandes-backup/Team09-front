@@ -36,5 +36,13 @@
 
   #lista, #lista2 {
     border-style: solid;
+    margin-bottom: 10px;
+  }
 
+  #send{
+    margin-left: 5px;
+  }
+
+  .h1{
+    margin-top:10px;
   }
