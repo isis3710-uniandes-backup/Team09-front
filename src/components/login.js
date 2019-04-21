@@ -106,7 +106,9 @@ export default class Login extends React.Component {
   
   render() {
     return (
-      <div>
+      <main>
+        <h1 align="Center">LogicDrawing</h1>
+        <h2 align="center">Share your ideas</h2>
         <div id="loginform" class="container">
           <div class="d-flex justify-content-center h-100">
             <div class="card">
@@ -199,7 +201,7 @@ export default class Login extends React.Component {
               </div>
             </div>
           </div>
-        </div>
+        </main>
     );
   }
 }

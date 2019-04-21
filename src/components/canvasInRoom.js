@@ -18,7 +18,7 @@ export default class CanvasInRoom extends React.Component {
 	renderState(){
 		return(
 			<div>
-				<b><p>{this.state.name}</p></b>
+				<p><b>{this.state.name}</b></p>
 				<p>{this.state.description}</p>
 			</div>
 		);
