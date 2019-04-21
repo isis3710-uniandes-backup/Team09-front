@@ -37,10 +37,16 @@ export default class Room extends React.Component {
 
         socket.on('messages', data=> {
         	{
-	        	this.setState({messagesNov:data});
-	  			console.log(data);
+        		if (data==='hola'){
+		        	console.log('conecta');
+		        	socket.emit('join',this.state.roomId);
+	  			}
+	  			else{
+	  				console.log('recibe');
+	  				this.setState({ messagesNov: this.state.messagesNov.concat([data])});
+		  			console.log(data);
+	  			}
   			}
-  			//render(data);
 		});
 
 		var consulta0;
@@ -109,8 +115,7 @@ export default class Room extends React.Component {
         }; 
 
 		var socket = socketIOClient(endpoint);
-	    var mensaje=this.state.message;
-	    var ms={id:0, msg:mensaje, user:UserProfile.getName()};
+	    var ms={id:this.state.roomId, msg:this.state.message, user:UserProfile.getName()};
 	    socket.emit('new-message', ms);
 
 	    axios.post('/api/messages/send/',{
