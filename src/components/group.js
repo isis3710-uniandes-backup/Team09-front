@@ -205,10 +205,11 @@ export default class Group extends React.Component {
       			height: '400px'
     		};
 		return(
-			<div>
+			<main>
+				<h1 align="Center">The group {this.state.name}</h1>
 				<div id="container">
 					<div id="left">
-					<h2 id="groupName">{this.state.name}</h2>
+					<h2 id="groupName">Users in</h2>
 				    	<div className="lists" style={style}>
 							<ul id="listOfUsers">
                                     
@@ -223,8 +224,8 @@ export default class Group extends React.Component {
                     </div>
                   <form onSubmit={this.handleUserAddition}>
                     <div class="modal-body">
-                    <input id="uName" type="text" name="usern"/><br/>
-					Will the user be an admin? <input id="isAdmin" type="checkbox" name="adminP" value="adminP"/><br/>
+                    <input id="uName" aria-label="username to add" type="text" name="usern"/><br/>
+					Will the user be an admin? <input id="isAdmin" aria-label="Is admin" type="checkbox" name="adminP" value="adminP"/><br/>
                     </div>
                     <div class="modal-footer">
                     <input type="submit" value="Submit"/>
@@ -249,7 +250,7 @@ export default class Group extends React.Component {
                   	</div>
                   <form onSubmit={this.handleRoomAddition}>
                   	<div class='modal-body'>
-                    	<input type="text" name="roomname" id="roomname"/><br/>
+                    	<input aria-label="new room name" type="text" name="roomname" id="roomname"/><br/>
                     </div>
                     <div class='modal-footer'>
                     	<input type="submit" value="Submit"/>
@@ -275,7 +276,7 @@ export default class Group extends React.Component {
                 </li>
           	</ul>
         </nav>
-			</div>
+			</main>
 		);
 	}
 }

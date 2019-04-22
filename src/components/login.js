@@ -3,6 +3,7 @@ import '../css/login.css';
 import User from "./user.js";
 import UserProfile from "./UserProfile";
 import ReactDOM from "react-dom";
+import {FormattedMessage} from 'react-intl';
 
 const axios = require('axios');
 
@@ -105,15 +106,27 @@ export default class Login extends React.Component {
   }
   
   render() {
+      var username="username";
+      var password="password";
+      var login="Login";
+      var email="email";
+      var sendREmail="Send Recovery email";
+    if (window.navigator.language.startsWith("es")) {
+        username="usuario";
+        password="clave";
+        login="iniciar";
+        email="correo electronico";
+        sendREmail="Enviar correo de recuperación";
+   }
     return (
       <main>
         <h1 align="Center">LogicDrawing</h1>
-        <h2 align="center">Share your ideas</h2>
+        <h2 align="center"><FormattedMessage id="share"/></h2>
         <div id="loginform" class="container">
           <div class="d-flex justify-content-center h-100">
             <div class="card">
               <div id='signincard' class="card-header">
-                <h3>Sign In</h3>
+                <h3><FormattedMessage id="Sign In"/></h3>
               </div>
               <div class="card-body">
                 <form onSubmit={this.handleSubmit}>
@@ -121,25 +134,25 @@ export default class Login extends React.Component {
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-user"></i></span>
                     </div>
-                    <input name="username" aria-label='username' type="text" value={this.state.username} onChange={this.handleInputChange} class="form-control" placeholder="username"/>
+                    <input name="username" aria-label={username} type="text" value={this.state.username} onChange={this.handleInputChange} class="form-control" placeholder={username}/>
                   </div>
                   <div class="input-group form-group">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-key"></i></span>
                     </div>
-                    <input name="password" aria-label='password' type="password" value={this.state.password} onChange={this.handleInputChange} class="form-control" placeholder="password"/>
+                    <input name="password" aria-label={password} type="password" value={this.state.password} onChange={this.handleInputChange} class="form-control" placeholder={password}/>
                   </div>
                   <div class="form-group">
-                    <input type="submit" value="Login" class="btn float-right login_btn"/>
+                    <input type="submit" value={login} class="btn float-right login_btn"/>
                   </div>
                 </form>
               </div>
               <div id='noaccount' class="card-footer">
                 <div class="d-flex justify-content-center links">
-                  Don't have an account?<a id='signup' href="#" onClick={this.handleRegister}>Sign Up</a>
+                  <FormattedMessage id='DontAccont'/><a id='signup' href="#" onClick={this.handleRegister}><FormattedMessage id='Sign Up'/></a>
                 </div>
                 <div class="d-flex justify-content-center">
-                <a id='forgot' href="#" onClick={this.handleForgotPassword}>Forgot your password?</a>
+                <a id='forgot' href="#" onClick={this.handleForgotPassword}><FormattedMessage id='forgotpassword'/></a>
                 </div>
               </div>
             </div>
@@ -149,7 +162,7 @@ export default class Login extends React.Component {
         <div class="d-flex justify-content-center h-100">
           <div class="card">
             <div id='forgotloginbanner' class="card-header">
-              <h3>Forgot my login</h3>
+              <h3><FormattedMessage id="forgotMyPassword"/></h3>
             </div>
             <div class="card-body">
               <form onSubmit={this.sendForgotEmail}>
@@ -157,10 +170,10 @@ export default class Login extends React.Component {
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-user"></i></span>
                   </div>
-                  <input name="username" aria-label='old username' type="text" value={this.state.username} onChange={this.handleInputChange} class="form-control" placeholder="username"/>
+                  <input name="username" aria-label='old username' type="text" value={this.state.username} onChange={this.handleInputChange} class="form-control" placeholder={username}/>
                 </div>
                 <div class="form-group">
-                  <input type="submit" style={{width: '100%'}} value="Send recovery email" class="btn float-right login_btn"/>
+                  <input type="submit" style={{width: '100%'}} value={sendREmail} class="btn float-right login_btn"/>
                 </div>
               </form>
             </div>
@@ -171,7 +184,7 @@ export default class Login extends React.Component {
           <div class="d-flex justify-content-center h-100">
               <div class="card">
                 <div id='registerBanner' class="card-header">
-                  <h3>Register</h3>
+                  <h3><FormattedMessage id="Register"/></h3>
                 </div>
                 <div class="card-body">
                   <form onSubmit={this.submitNewUser.bind(this)}>
@@ -179,22 +192,22 @@ export default class Login extends React.Component {
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-user"></i></span>
                       </div>
-                      <input name="username" aria-label='new username' type="text" value={this.state.username} onChange={this.handleInputChange} class="form-control" placeholder="username"/>
+                      <input name="username" aria-label='new username' type="text" value={this.state.username} onChange={this.handleInputChange} class="form-control" placeholder={username}/>
                     </div>
                     <div class="input-group form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">@</span>
                       </div>
-                      <input name="email" aria-label='new name' type="text" value={this.state.email} onChange={this.handleInputChange} class="form-control" placeholder="email"/>
+                      <input name="email" aria-label='new name' type="text" value={this.state.email} onChange={this.handleInputChange} class="form-control" placeholder={email}/>
                     </div>
                     <div class="input-group form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-key"></i></span>
                       </div>
-                      <input name="password" aria-label='new password' type="password" value={this.state.password} onChange={this.handleInputChange} class="form-control" placeholder="password"/>
+                      <input name="password" aria-label='new password' type="password" value={this.state.password} onChange={this.handleInputChange} class="form-control" placeholder={password}/>
                     </div>
                     <div class="form-group">
-                      <input type="submit" value="Login" class="btn float-right login_btn"/>
+                      <input type="submit" value={login} class="btn float-right login_btn"/>
                     </div>
                   </form>
                 </div>

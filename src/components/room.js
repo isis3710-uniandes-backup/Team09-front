@@ -113,7 +113,7 @@ export default class Room extends React.Component {
                 response:false,
                 endpoint:"http://localhost:3001"
         }; 
-
+        if(this.state.message!==null&&this.state.message!==""){
 		var socket = socketIOClient(endpoint);
 	    var ms={id:this.state.roomId, msg:this.state.message, user:UserProfile.getName()};
 	    socket.emit('new-message', ms);
@@ -129,6 +129,7 @@ export default class Room extends React.Component {
     	}).then(()=>{
 
     	});
+    }
     }
 
 	logOut(){
@@ -150,7 +151,7 @@ export default class Room extends React.Component {
     		};
 		return(
 			<main>
-				<h1>{this.state.name} room</h1>
+				<h1 align="Center">{this.state.name} room</h1>
 				<nav class="navbar navbar-expand-sm bg-dark">
                         <ul class="navbar-nav">
                         <li class="nav-item">

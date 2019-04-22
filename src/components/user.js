@@ -127,8 +127,12 @@ export default class User extends React.Component{
     }
 
     render(){
+            var profilePicture="Profile picture";
+        if (window.navigator.language.startsWith("es")) {
+            profilePicture="Foto de perfil";
+       }
         return(
-            <div>
+            <main>
                 <nav class="navbar navbar-expand-sm bg-dark">
                         <ul class="navbar-nav">
                         <li class="nav-item">
@@ -152,7 +156,7 @@ export default class User extends React.Component{
                     <div class="row userInformation">
                         <div class="col-md profilePictureContainer">    
                             <div class="row">
-                                <img class="profilePicture" src="https://www.qualiscare.com/wp-content/uploads/2017/08/default-user.png"/>
+                                <img class="profilePicture" alt={profilePicture} src="https://www.qualiscare.com/wp-content/uploads/2017/08/default-user.png"/>
                             </div>
                             <div class="row">
                                 <button class="updateProfilePicture" onClick={this.handleEdit} align="right">Update Information</button>
@@ -166,13 +170,13 @@ export default class User extends React.Component{
                                     <form onSubmit={this.handleSubmitURL}>
                                         <div class="modal-body">
                                         Insert your new username:<br/>
-                                        <input type="text" name="usern" id="newUsername"/><br/>
+                                        <input aria-label="new username" type="text" name="usern" id="newUsername"/><br/>
                                         Insert your new email:<br/>
-                                        <input type="text" name="email" id="newEmail"/><br/>
+                                        <input aria-label="new email" type="text" name="email" id="newEmail"/><br/>
                                         Insert your new password:<br/>
-                                        <input type="text" name="passw" id="newPassword"/><br/>
+                                        <input aria-label="new password" type="text" name="passw" id="newPassword"/><br/>
                                         Insert the URL of the new image:<br/>
-                                        <input type="text" name="picUrl" id="newUrl"/><br/>
+                                        <input aria-label="new image URL" type="text" name="picUrl" id="newUrl"/><br/>
                                         </div>
                                     <div class="modal-footer">
                                         <input type="submit" value="Submit"/>
@@ -213,7 +217,7 @@ export default class User extends React.Component{
                                         </div>
                                         <form onSubmit={this.createNewGroup}>
                                             <div class="modal-body">
-                                                <input id="gName" type="text" name="groupn"/><br/>
+                                                <input id="gName" aria-label="new group name" type="text" name="groupn"/><br/>
                                             </div>
                                             <div class="modal-footer">
                                                 <input type="submit" value="Submit"/>
@@ -229,7 +233,7 @@ export default class User extends React.Component{
                         </div>
                     </div>
                 </div>
-            </div>
+            </main>
         );
     }
 }
