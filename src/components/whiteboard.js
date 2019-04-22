@@ -27,7 +27,7 @@ function startSave(){
       })
     }
     actionMade=false;
-  }, 10000);
+  }, 20000);
 }
 
 export default class Whiteboard extends React.Component {
@@ -59,7 +59,16 @@ export default class Whiteboard extends React.Component {
             }).catch((err)=>{
               console.log(err);
             }).then(()=>{
-              canvg(canvas,paths);
+                var svg64 = btoa(unescape(encodeURIComponent(paths))); 
+                var b64start = 'data:image/svg+xml;base64,';
+                var image64 = b64start + svg64;
+                var image = new Image();
+                image.src = image64;
+                console.log(image);
+                image.onload=()=>{
+                  context.drawImage(image,0,0);
+                }
+              //canvg(canvas,paths);
             });
 
             var current = {
@@ -84,7 +93,7 @@ export default class Whiteboard extends React.Component {
           
             socket.on('drawing', onDrawingEvent);
           
-            window.addEventListener('resize', onResize, false);
+            //window.addEventListener('resize', onResize, false);
             onResize();
            startSave();
           
@@ -184,6 +193,12 @@ export default class Whiteboard extends React.Component {
         "user":UserProfile.getName()
       })
     }
+
+    openMenu(){
+      document.getElementById("menubar").style.width = "400px";
+      document.getElementById("main").style.marginRight = "400px";
+    }
+
     openNav() {
       var ul = document.getElementById("commentList");
       var temp = this;
@@ -227,6 +242,7 @@ export default class Whiteboard extends React.Component {
     }
     closeNav() {
       document.getElementById("mySidebar").style.width = "0";
+      document.getElementById("menubar").style.width= "0";
       document.getElementById("main").style.marginRight= "0";
     }
 
@@ -264,23 +280,28 @@ export default class Whiteboard extends React.Component {
 
                   </ul>
                 </div>
+                <a href="#" class="float2">
+                  <i onClick={this.openMenu} class="fas fa-caret-left my-float"></i>
+                </a>
+                <div class="label-container2">
+                  <div class="label-text">Menu</div>
+                  <i class="fa fa-play label-arrow"></i>
+                </div>
+                <div id="menubar" class="sidebar">
+                  <a href="#" class="closebtn" onClick={this.closeNav}>&times;</a>
+                  <ul id="navlist">
+                    <li class="redButtons">
+                        <a class="links" href="#">LogicDrawing</a>
+                    </li>
+                    <li class="redButtons">
+                      <a class="links" href="#" onClick={this.goToUser}>{UserProfile.getName()}</a>
+                    </li>
+                    <li class="redButtons">
+                      <a class="links" href="#" onClick={this.logOut}>Log Out</a>
+                    </li>
+                  </ul>
+                </div>
             </div>
-            <nav class="navbar navbar-expand-sm bg-dark">
-                        <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">LogicDrawing</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" >Canvas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" onClick={this.goToUser}>{UserProfile.getName()}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" onClick={this.logOut}>Log Out</a>
-                        </li>
-                        </ul>
-                    </nav>
           </div>
         );
     }
