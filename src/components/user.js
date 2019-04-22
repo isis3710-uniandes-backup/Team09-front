@@ -240,7 +240,7 @@ export default class User extends React.Component{
                                         </div>
                                         <form onSubmit={this.createNewGroup}>
                                             <div class="modal-body">
-                                                <input id="gName" aria-label="new group name" type="text" name="groupn"/><br/>
+                                                <input id="gName" aria-label="new group name" type="text" name="groupn" required/><br/>
                                             </div>
                                             <div class="modal-footer">
                                                 <input type="submit" value={submit}/>

@@ -94,7 +94,18 @@ export default class Room extends React.Component {
 	    }).catch(function(error){
 	      console.log(error);
 	    }).then(()=>{
-	    	this.setState({messages:consulta1, chatId:consulta1[0].chatId});
+	    	this.setState({messages:consulta1});
+	    	console.log(this.state.messages);
+	    });
+
+	    var consulta2;
+		axios.get('/api/rooms/'+ this.state.roomId+'/chats').then(function(response){
+			console.log(response.data);
+			consulta2=response.data;
+	    }).catch(function(error){
+	      console.log(error);
+	    }).then(()=>{
+	    	this.setState({chatId:consulta2[0].chatId});
 	    	console.log(this.state.messages);
 	    });
 

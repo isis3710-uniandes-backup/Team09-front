@@ -6,6 +6,10 @@
 	font-size: 20px;
 }
 
+a{
+  color:#004085;
+}
+
 #left, #right {
 	display: inline-block; 
 	*display: inline; zoom: 1; 

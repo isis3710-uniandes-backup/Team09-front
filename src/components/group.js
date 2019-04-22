@@ -218,6 +218,13 @@ export default class Group extends React.Component {
 			a.onclick = this.handleRoomGo.bind(lastID);
 			li.appendChild(a);
 			list.appendChild(li);
+			axios.post('http://localhost:3001/api/chats/create',{
+				"roomId":parseInt(lastID)
+			}).then((response1)=>{
+				console.log(response1);
+			}).catch(function(err1){
+				console.log(err1);
+			});
 		}).catch(function(err){
 				console.log(err);
 		});
@@ -252,7 +259,7 @@ export default class Group extends React.Component {
                     </div>
                   <form onSubmit={this.handleUserAddition}>
                     <div class="modal-body">
-                    <input id="uName" aria-label="username to add" type="text" name="usern"/><br/>
+                    <input id="uName" aria-label="username to add" type="text" name="usern" required/><br/>
 					<FormattedMessage id="Will the user be an admin?"/> <input id="isAdmin" aria-label="Is admin" type="checkbox" name="adminP" value="adminP"/><br/>
                     </div>
                     <div class="modal-footer">
@@ -278,7 +285,7 @@ export default class Group extends React.Component {
                   	</div>
                   <form onSubmit={this.handleRoomAddition}>
                   	<div class='modal-body'>
-                    	<input aria-label="new room name" type="text" name="roomname" id="roomname"/><br/>
+                    	<input aria-label="new room name" type="text" name="roomname" id="roomname" required/><br/>
                     </div>
                     <div class='modal-footer'>
                     	<input type="submit" value={submit}/>
