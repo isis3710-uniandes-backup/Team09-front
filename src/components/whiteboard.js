@@ -4,8 +4,31 @@ import socketIOClient from "socket.io-client";
 import UserProfile from "./UserProfile";
 import ReactDOM from "react-dom";
 import User from "./user";
+import ImageTracer from "imagetracerjs";
+import canvg from "canvg";
 
 const axios =require('axios');
+
+var actionMade = false;
+var optionsForDrawing = {
+  "numberofcolors":64
+}
+var interval; 
+
+function startSave(){
+  interval = window.setInterval(()=>{
+    var imData = ImageTracer.getImgdata(document.getElementsByClassName('whiteboard')[0]);
+    var svgText = ImageTracer.imagedataToSVG(imData,optionsForDrawing);
+
+    if(actionMade){
+      axios.put('http://localhost:3001/api/actions/draw/'+1,{
+        "canvasId": 1,
+        "svgPath": svgText
+      })
+    }
+    actionMade=false;
+  }, 10000);
+}
 
 export default class Whiteboard extends React.Component {
       constructor(props){
@@ -14,6 +37,11 @@ export default class Whiteboard extends React.Component {
         this.handleComment=this.handleComment.bind(this);
         this.openNav=this.openNav.bind(this);
     }
+
+    componentWillMount(){
+      document.body.style.background = "#FFFFFF";
+    }
+
     componentDidMount(){
         
             const endpoint = {
@@ -24,7 +52,16 @@ export default class Whiteboard extends React.Component {
             var canvas = document.getElementsByClassName('whiteboard')[0];
             var colors = document.getElementsByClassName('color');
             var context = canvas.getContext('2d');
-          
+
+            var paths;
+            axios.get('http://localhost:3001/api/actions/1').then((response)=>{
+              paths=response.data.svg;
+            }).catch((err)=>{
+              console.log(err);
+            }).then(()=>{
+              canvg(canvas,paths);
+            });
+
             var current = {
               color: 'black'
             };
@@ -49,7 +86,7 @@ export default class Whiteboard extends React.Component {
           
             window.addEventListener('resize', onResize, false);
             onResize();
-          
+           startSave();
           
             function drawLine(x0, y0, x1, y1, color, emit){
               context.beginPath();
@@ -59,7 +96,8 @@ export default class Whiteboard extends React.Component {
               context.lineWidth = 2;
               context.stroke();
               context.closePath();
-          
+
+              actionMade=true;
               if (!emit) { return; }
               var w = canvas.width;
               var h = canvas.height;
@@ -122,6 +160,12 @@ export default class Whiteboard extends React.Component {
             }
           
           ;
+    }
+
+
+    componentWillUnmount(){
+      clearInterval(interval);
+      document.body.style.background = "url('../img/seamless.png')";
     }
 
     logOut(){
@@ -206,6 +250,7 @@ export default class Whiteboard extends React.Component {
                     <div class="color blue"></div>
                     <div class="color yellow"></div>
                 </div>
+                <div class ="eraser"></div>
                 <a href="#" class="float">
                   <i onClick={this.openNav} class="fa fa-envelope my-float"></i>
                 </a>

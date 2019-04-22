@@ -36,6 +36,15 @@
     display: inline-block;
     height: 48px;
     width: 48px;
+    border-radius: 50%;
+  }
+
+  .eraser{
+    position:fixed;
+    display:inline-block;
+    height: 48px;
+    width: 48px;
+    border-radius: 50%;
   }
   
   .color.black { background-color: black; }
