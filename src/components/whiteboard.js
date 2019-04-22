@@ -5,7 +5,22 @@ import UserProfile from "./UserProfile";
 import ReactDOM from "react-dom";
 import User from "./user";
 import ImageTracer from "imagetracerjs";
-import canvg from "canvg";
+import {IntlProvider, addLocaleData} from 'react-intl';
+import esLocaleData from 'react-intl/locale-data/es';
+import localeEnMessages from "../locales/en";
+import localeEsMessages from "../locales/es";
+import {FormattedMessage} from 'react-intl';
+
+addLocaleData(esLocaleData);
+
+function lenguaSelector(){
+   if (window.navigator.language.startsWith("es")) {
+        return (localeEsMessages);
+   }else{
+        return localeEnMessages;
+   }
+
+}
 
 const axios =require('axios');
 
@@ -247,7 +262,11 @@ export default class Whiteboard extends React.Component {
     }
 
     goToUser(){
-      ReactDOM.render(<User />, document.getElementById("root"));
+      ReactDOM.render(
+        <IntlProvider locale={window.navigator.language} messages= {lenguaSelector()}>
+          <User/>
+        </IntlProvider>, document.getElementById("root")
+        );
     }
 
     logOut(){

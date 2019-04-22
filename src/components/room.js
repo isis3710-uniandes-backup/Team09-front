@@ -33,8 +33,8 @@ export default class Room extends React.Component {
 	this.state={
 		"user":UserProfile.getName(),
 		"roomId":this.props.roomId,
-		"name":"Mi sala magica",
-		"groupId":2,
+		"name":"",
+		"groupId":-1,
 		"canvases":[],
 		"messages":[],
 		"messagesNov":[],
@@ -42,29 +42,8 @@ export default class Room extends React.Component {
 		"chatId":0
 	}
 }
-	componentDidMount(){
 
-		var endpoint = {
-                response:false,
-                endpoint:"http://localhost:3001"
-        }; 
-
-		var socket = socketIOClient(endpoint);
-
-        socket.on('messages', data=> {
-        	{
-        		if (data==='hola'){
-		        	console.log('conecta');
-		        	socket.emit('join',this.state.roomId);
-	  			}
-	  			else{
-	  				console.log('recibe');
-	  				this.setState({ messagesNov: this.state.messagesNov.concat([data])});
-		  			console.log(data);
-	  			}
-  			}
-		});
-
+	componentWillMount(){
 		var consulta0;
 		axios.get('/api/rooms/'+ this.state.roomId).then(function(response){
 			console.log(response.data);
@@ -94,20 +73,32 @@ export default class Room extends React.Component {
 	    }).catch(function(error){
 	      console.log(error);
 	    }).then(()=>{
-	    	this.setState({messages:consulta1});
+	    	this.setState({messages:consulta1, chatId:consulta1[0].chatId});
 	    	console.log(this.state.messages);
 	    });
+	}
+	componentDidMount(){
 
-	    var consulta2;
-		axios.get('/api/rooms/'+ this.state.roomId+'/chats').then(function(response){
-			console.log(response.data);
-			consulta2=response.data;
-	    }).catch(function(error){
-	      console.log(error);
-	    }).then(()=>{
-	    	this.setState({chatId:consulta2[0].chatId});
-	    	console.log(this.state.messages);
-	    });
+		var endpoint = {
+                response:false,
+                endpoint:"http://localhost:3001"
+        }; 
+
+		var socket = socketIOClient(endpoint);
+
+        socket.on('messages', data=> {
+        	{
+        		if (data==='hola'){
+		        	console.log('conecta');
+		        	socket.emit('join',this.state.roomId);
+	  			}
+	  			else{
+	  				console.log('recibe');
+	  				this.setState({ messagesNov: this.state.messagesNov.concat([data])});
+		  			console.log(data);
+	  			}
+  			}
+		});
 
   		//document.getElementById('lista2').innerHTML = html;
 	}
@@ -187,7 +178,6 @@ export default class Room extends React.Component {
     		};
 		return(
 			<main>
-				<h1 align="Center"><FormattedMessage id="room"/> {this.state.name}</h1>
 				<nav class="navbar navbar-expand-sm bg-dark">
                         <ul class="navbar-nav">
                         <li class="nav-item">
@@ -204,6 +194,9 @@ export default class Room extends React.Component {
                         </li>
                         </ul>
                     </nav>
+				<div class="container">
+				<h1 align="Center"><FormattedMessage id="room"/> {this.state.name}</h1>
+				
                  <div>
                     
                 </div>
@@ -227,7 +220,7 @@ export default class Room extends React.Component {
   						<br/>
 				    </div>
 				</div>
-
+			</div>
 			</main>
 		);
 	}

@@ -1,23 +1,23 @@
 * {margin: 0; padding: 0;}
 
 #container {
-	height: 100%; 
-	width:100%; 
-	font-size: 20px;
+  height: 100%; 
+  width:100%; 
+  font-size: 20px;
 }
 
 #left, #right {
-	display: inline-block; 
-	*display: inline; zoom: 1; 
-	vertical-align: top;
+  display: inline-block; 
+  *display: inline; zoom: 1; 
+  vertical-align: top;
 }
 
 #left {
-	width: 50%;
+  width: 50%;
 }
 
 #right {
-	width: 50%;
+  width: 50%;
 }
 
 #upper {
