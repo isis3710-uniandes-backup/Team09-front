@@ -36,8 +36,14 @@
 
 .lists {
     border-style: solid;
-
+    border-radius: 10px;
   }
+
+.addUser,.addRoom{
+  margin-left: 5px;
+  margin-top: 10px;
+}
+
   /* The Modal (background) */
 .modal {
   display: none; /* Hidden by default */

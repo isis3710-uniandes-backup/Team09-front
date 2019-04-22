@@ -217,12 +217,18 @@ export default class Group extends React.Component {
 							<button class="addUser" onClick={this.handleAdditionOverlay}>Add User</button>
 							<div id="modalAddUser" class="modal">
               	<div class="modal-content-pic">
-                  <span class="closeOverlay">&times;</span>
+              		<div class="modal-header">
+	              		Insert username of the user to add:<br/>	
+	                    <span class="closeOverlay">&times;</span>
+                    </div>
                   <form onSubmit={this.handleUserAddition}>
-                    Insert username of the user to add:<br/>
+                    <div class="modal-body">
                     <input id="uName" type="text" name="usern"/><br/>
-										Will the user be an admin?<input id="isAdmin" type="checkbox" name="adminP" value="adminP"/><br/>
+					Will the user be an admin? <input id="isAdmin" type="checkbox" name="adminP" value="adminP"/><br/>
+                    </div>
+                    <div class="modal-footer">
                     <input type="submit" value="Submit"/>
+                    </div>
                   </form>
                 </div>
               </div>
@@ -237,11 +243,17 @@ export default class Group extends React.Component {
 							<button class="addRoom" onClick={this.handleRoomOverlay}>Create a New Room</button>
 							<div id="modalRooms" class="modal">
                 <div class="modal-content-pic">
-                  <span class="closeOverlay">&times;</span>
+                	<div class='modal-header'>
+                		Insert room name:<br/>
+                  		<span class="closeOverlay">&times;</span>
+                  	</div>
                   <form onSubmit={this.handleRoomAddition}>
-                    Insert room name:<br/>
-                    <input type="text" name="roomname" id="roomname"/><br/>
-                    <input type="submit" value="Submit"/>
+                  	<div class='modal-body'>
+                    	<input type="text" name="roomname" id="roomname"/><br/>
+                    </div>
+                    <div class='modal-footer'>
+                    	<input type="submit" value="Submit"/>
+                    </div>
                   </form>
                 </div>
               </div>

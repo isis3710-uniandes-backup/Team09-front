@@ -12,10 +12,24 @@
 .updateProfilePicture{
     width: 400px;
     height: auto;
-    margin-left:90%;
-    margin-bottom: 3%;
-    
+    margin-left:75%;
+    margin-bottom: 3%;   
 }
+
+#newGroupButton{
+  margin-left:1%;
+  vertical-align: middle;
+}
+
+#submitData{
+  border-top:5px;
+}
+
+.separator {
+  background-color:transparent;
+  height: 20px;
+}
+
 .userInfo{
   margin-top:20%;
     font-size: 18px;
@@ -44,7 +58,7 @@
   /* Modal Content/Box */
   .modal-content-pic {
     background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
+    margin: 15% auto;/* 15% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
     width: 20%; /* Could be more or less, depending on screen size */

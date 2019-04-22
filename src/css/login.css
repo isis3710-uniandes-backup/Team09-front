@@ -4,6 +4,7 @@
 
 html,body{
 /*background-image: url('http://getwallpapers.com/wallpaper/full/a/5/d/544750.jpg');*/
+background-image: url('../img/seamless.png');
 background-size: cover;
 background-repeat: no-repeat;
 height: 100%;
@@ -40,6 +41,16 @@ outline: 0 0 0 0  !important;
 box-shadow: 0 0 0 0 !important;
 
 }
+
+#noaccount,#signincard,#registerBanner,#forgotloginbanner{
+	/*background-color: #666666;*/
+	background-color: #474747;
+}
+
+#signup, #forgot{
+	/*color:#DBEDFF;*/
+	color:#CCE6FF;
+} 
 
 .remember{
 color: white;

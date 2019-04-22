@@ -144,7 +144,7 @@ export default class User extends React.Component{
                             <a class="nav-link" href="#" onClick={this.logOut}>Log Out</a>
                         </li>
                         </ul>
-                    </nav>
+                </nav>
                 <div class="container">
                 <div class="row welcome">
                     <h1>Welcome, {this.state.getName()}</h1>
@@ -159,8 +159,12 @@ export default class User extends React.Component{
                             </div>
                             <div id="modalPP" class="modal">
                                 <div class="modal-content-pic">
-                                    <span class="closeOverlay">&times;</span>
+                                    <div class="modal-header">
+                                        Fill in the fields you would like to change
+                                        <span align='right' class="closeOverlay">&times;</span>
+                                    </div>
                                     <form onSubmit={this.handleSubmitURL}>
+                                        <div class="modal-body">
                                         Insert your new username:<br/>
                                         <input type="text" name="usern" id="newUsername"/><br/>
                                         Insert your new email:<br/>
@@ -169,7 +173,10 @@ export default class User extends React.Component{
                                         <input type="text" name="passw" id="newPassword"/><br/>
                                         Insert the URL of the new image:<br/>
                                         <input type="text" name="picUrl" id="newUrl"/><br/>
+                                        </div>
+                                    <div class="modal-footer">
                                         <input type="submit" value="Submit"/>
+                                    </div>
                                     </form>
                                 </div>
                             </div>
@@ -197,14 +204,20 @@ export default class User extends React.Component{
                             </div>
                         </div>
                         <div class="col-bg">
-                        <button onClick={this.createNewGroupOverlay} >Create new group</button>
+                        <button id='newGroupButton' onClick={this.createNewGroupOverlay} >Create new group</button>
                                 <div id="modalGroup" class="modal">
                                     <div class="modal-content-pic">
-                                        <span class="closeOverlay">&times;</span>
-                                        <form onSubmit={this.createNewGroup}>
+                                        <div class="modal-header">
                                             Insert the name of the new group:<br/>
-                                            <input id="gName" type="text" name="groupn"/><br/>
-                                            <input type="submit" value="Submit"/>
+                                            <span class="closeOverlay">&times;</span>
+                                        </div>
+                                        <form onSubmit={this.createNewGroup}>
+                                            <div class="modal-body">
+                                                <input id="gName" type="text" name="groupn"/><br/>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <input type="submit" value="Submit"/>
+                                            </div>
                                         </form>
                                     </div>
                                 </div>

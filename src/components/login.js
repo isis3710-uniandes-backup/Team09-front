@@ -112,7 +112,7 @@ export default class Login extends React.Component {
         <div id="loginform" class="container">
           <div class="d-flex justify-content-center h-100">
             <div class="card">
-              <div class="card-header">
+              <div id='signincard' class="card-header">
                 <h3>Sign In</h3>
               </div>
               <div class="card-body">
@@ -134,12 +134,12 @@ export default class Login extends React.Component {
                   </div>
                 </form>
               </div>
-              <div class="card-footer">
+              <div id='noaccount' class="card-footer">
                 <div class="d-flex justify-content-center links">
-                  Don't have an account?<a href="#" onClick={this.handleRegister}>Sign Up</a>
+                  Don't have an account?<a id='signup' href="#" onClick={this.handleRegister}>Sign Up</a>
                 </div>
                 <div class="d-flex justify-content-center">
-                <a href="#" onClick={this.handleForgotPassword}>Forgot your password?</a>
+                <a id='forgot' href="#" onClick={this.handleForgotPassword}>Forgot your password?</a>
                 </div>
               </div>
             </div>
@@ -148,7 +148,7 @@ export default class Login extends React.Component {
         <div id="forgotform" style={{opacity: 0}} class="container">
         <div class="d-flex justify-content-center h-100">
           <div class="card">
-            <div class="card-header">
+            <div id='forgotloginbanner' class="card-header">
               <h3>Forgot my login</h3>
             </div>
             <div class="card-body">
@@ -170,7 +170,7 @@ export default class Login extends React.Component {
         <div id="registerform" style={{opacity:0}} class="container">
           <div class="d-flex justify-content-center h-100">
               <div class="card">
-                <div class="card-header">
+                <div id='registerBanner' class="card-header">
                   <h3>Register</h3>
                 </div>
                 <div class="card-body">

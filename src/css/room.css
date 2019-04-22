@@ -35,8 +35,12 @@
   }
 
   #lista, #lista2 {
+    width:100%;
     border-style: solid;
+    border-radius: 10px;
     margin-bottom: 10px;
+    word-wrap: break-word;
+    width: 100%;
   }
 
   #send{

@@ -61,7 +61,7 @@ export default class Room extends React.Component {
 	    });
 
 		var consulta;
-		axios.get('/api/rooms/'+ this.state.groupId+'/canvas').then(function(response){
+		axios.get('/api/rooms/'+ this.state.roomId+'/canvas').then(function(response){
 			console.log(response.data);
 			consulta=response.data;
 	    }).catch(function(error){
@@ -72,7 +72,7 @@ export default class Room extends React.Component {
 	    });
 
     	var consulta1;
-		axios.get('/api/rooms/'+ this.state.groupId+'/messages').then(function(response){
+		axios.get('/api/rooms/'+ this.state.roomId+'/messages').then(function(response){
 			console.log(response.data);
 			consulta1=response.data;
 	    }).catch(function(error){
