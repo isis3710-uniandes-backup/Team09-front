@@ -4,6 +4,22 @@ import UserProfile from "./UserProfile";
 import ReactDOM from "react-dom";
 import Whiteboard from './whiteboard';
 import Group from "./group";
+import {IntlProvider, addLocaleData} from 'react-intl';
+import esLocaleData from 'react-intl/locale-data/es';
+import localeEnMessages from "../locales/en";
+import localeEsMessages from "../locales/es";
+import {FormattedMessage} from 'react-intl';
+
+addLocaleData(esLocaleData);
+
+function lenguaSelector(){
+   if (window.navigator.language.startsWith("es")) {
+        return (localeEsMessages);
+   }else{
+        return localeEnMessages;
+   }
+
+}
 
 const axios = require('axios');
 
@@ -63,7 +79,11 @@ export default class User extends React.Component{
 
     handleGroupGo(event){
         var id = event.srcElement.id.split('-')[1];
-        ReactDOM.render(<Group groupid={id}/>, document.getElementById("root"))
+        ReactDOM.render(
+        <IntlProvider locale={window.navigator.language} messages= {lenguaSelector()}>
+            <Group groupid={id}/>
+        </IntlProvider>, document.getElementById("root")
+        );
     }
 
     handleEdit(event){
@@ -127,9 +147,12 @@ export default class User extends React.Component{
     }
 
     render(){
+
             var profilePicture="Profile picture";
+            var submit="Submit";
         if (window.navigator.language.startsWith("es")) {
             profilePicture="Foto de perfil";
+            submit="Enviar";
        }
         return(
             <main>
@@ -151,7 +174,7 @@ export default class User extends React.Component{
                 </nav>
                 <div class="container">
                 <div class="row welcome">
-                    <h1>Welcome, {this.state.getName()}</h1>
+                    <h1><FormattedMessage id="Welcome"/>, {this.state.getName()}</h1>
                 </div>
                     <div class="row userInformation">
                         <div class="col-md profilePictureContainer">    
@@ -159,27 +182,27 @@ export default class User extends React.Component{
                                 <img class="profilePicture" alt={profilePicture} src="https://www.qualiscare.com/wp-content/uploads/2017/08/default-user.png"/>
                             </div>
                             <div class="row">
-                                <button class="updateProfilePicture" onClick={this.handleEdit} align="right">Update Information</button>
+                                <button class="updateProfilePicture" onClick={this.handleEdit} align="right"><FormattedMessage id="Update Information"/></button>
                             </div>
                             <div id="modalPP" class="modal">
                                 <div class="modal-content-pic">
                                     <div class="modal-header">
-                                        Fill in the fields you would like to change
+                                        <FormattedMessage id="Fill in the fields you would like to change"/>
                                         <span align='right' class="closeOverlay">&times;</span>
                                     </div>
                                     <form onSubmit={this.handleSubmitURL}>
                                         <div class="modal-body">
-                                        Insert your new username:<br/>
+                                        <FormattedMessage id="Insert your new username"/>:<br/>
                                         <input aria-label="new username" type="text" name="usern" id="newUsername"/><br/>
-                                        Insert your new email:<br/>
+                                        <FormattedMessage id="Insert your new email"/>:<br/>
                                         <input aria-label="new email" type="text" name="email" id="newEmail"/><br/>
-                                        Insert your new password:<br/>
+                                        <FormattedMessage id="Insert your new password"/>:<br/>
                                         <input aria-label="new password" type="text" name="passw" id="newPassword"/><br/>
-                                        Insert the URL of the new image:<br/>
+                                        <FormattedMessage id="Insert the URL of the new image"/>:<br/>
                                         <input aria-label="new image URL" type="text" name="picUrl" id="newUrl"/><br/>
                                         </div>
                                     <div class="modal-footer">
-                                        <input type="submit" value="Submit"/>
+                                        <input type="submit" value={submit}/>
                                     </div>
                                     </form>
                                 </div>
@@ -187,12 +210,12 @@ export default class User extends React.Component{
                         </div>
                         <div class="col-md userInfoContainer">
                             <div class="userInfo">
-                                Username:
+                                <FormattedMessage id="Username"/>:
                                 <br/>
                                 {this.state.getName()}
                                 <br/>
                                 <br/>
-                                Email:
+                                <FormattedMessage id="Email"/>:
                                 <br/>
                                 {this.state.getEmail()}
                             </div>
@@ -201,18 +224,18 @@ export default class User extends React.Component{
                     <div class="row">
                         <div class="col-bg userGroups">
                             <div class="myGroups">
-                                <h2>My Groups</h2>
+                                <h2><FormattedMessage id="My Groups"/></h2>
                                 <ul id="listOfGroups">
                                     
                                 </ul>
                             </div>
                         </div>
                         <div class="col-bg">
-                        <button id='newGroupButton' onClick={this.createNewGroupOverlay} >Create new group</button>
+                        <button id='newGroupButton' onClick={this.createNewGroupOverlay} ><FormattedMessage id="Create new group"/></button>
                                 <div id="modalGroup" class="modal">
                                     <div class="modal-content-pic">
                                         <div class="modal-header">
-                                            Insert the name of the new group:<br/>
+                                            <FormattedMessage id="Insert the name of the new group"/>:<br/>
                                             <span class="closeOverlay">&times;</span>
                                         </div>
                                         <form onSubmit={this.createNewGroup}>
@@ -220,7 +243,7 @@ export default class User extends React.Component{
                                                 <input id="gName" aria-label="new group name" type="text" name="groupn"/><br/>
                                             </div>
                                             <div class="modal-footer">
-                                                <input type="submit" value="Submit"/>
+                                                <input type="submit" value={submit}/>
                                             </div>
                                         </form>
                                     </div>

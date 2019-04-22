@@ -5,6 +5,22 @@ import User from "./user";
 import ReactDOM from "react-dom";
 import Whiteboard from "./whiteboard";
 import Room from "./room";
+import {IntlProvider, addLocaleData} from 'react-intl';
+import esLocaleData from 'react-intl/locale-data/es';
+import localeEnMessages from "../locales/en";
+import localeEsMessages from "../locales/es";
+import {FormattedMessage} from 'react-intl';
+
+addLocaleData(esLocaleData);
+
+function lenguaSelector(){
+   if (window.navigator.language.startsWith("es")) {
+        return (localeEsMessages);
+   }else{
+        return localeEnMessages;
+   }
+
+}
 
 const axios = require('axios');
 
@@ -107,7 +123,11 @@ export default class Group extends React.Component {
 
 	handleRoomGo(event){
 		var id = event.srcElement.id.split('-')[1];
-    ReactDOM.render(<Room roomId={id}/>, document.getElementById("root"))
+	ReactDOM.render(
+	<IntlProvider locale={window.navigator.language} messages= {lenguaSelector()}>
+		<Room roomId={id}/>
+	</IntlProvider>, document.getElementById("root")
+    );
   }
 
 	logOut(){
@@ -119,7 +139,11 @@ export default class Group extends React.Component {
 	}
 
 	goToUser(){
-		ReactDOM.render(<User />, document.getElementById("root"));
+		ReactDOM.render(
+        <IntlProvider locale={window.navigator.language} messages= {lenguaSelector()}>
+          <User/>
+        </IntlProvider>, document.getElementById("root")
+        );
 	}
 
 	handleAdditionOverlay(event){
@@ -200,52 +224,56 @@ export default class Group extends React.Component {
 	}
 
 	render(){
+			var submit="Submit";
+	        if (window.navigator.language.startsWith("es")) {
+	            submit="Enviar";
+	       }
 		var style = {
       			overflow: 'scroll',
       			height: '400px'
     		};
 		return(
 			<main>
-				<h1 align="Center">The group {this.state.name}</h1>
+				<h1 align="Center"><FormattedMessage id="The group"/> {this.state.name}</h1>
 				<div id="container">
 					<div id="left">
-					<h2 id="groupName">Users in</h2>
+					<h2 id="groupName"><FormattedMessage id="Users in"/></h2>
 				    	<div className="lists" style={style}>
 							<ul id="listOfUsers">
                                     
 							</ul>
 				    	</div>
-							<button class="addUser" onClick={this.handleAdditionOverlay}>Add User</button>
+							<button class="addUser" onClick={this.handleAdditionOverlay}><FormattedMessage id="Add User"/></button>
 							<div id="modalAddUser" class="modal">
               	<div class="modal-content-pic">
               		<div class="modal-header">
-	              		Insert username of the user to add:<br/>	
+	              		<FormattedMessage id="Insert username of the user to add"/>:<br/>	
 	                    <span class="closeOverlay">&times;</span>
                     </div>
                   <form onSubmit={this.handleUserAddition}>
                     <div class="modal-body">
                     <input id="uName" aria-label="username to add" type="text" name="usern"/><br/>
-					Will the user be an admin? <input id="isAdmin" aria-label="Is admin" type="checkbox" name="adminP" value="adminP"/><br/>
+					<FormattedMessage id="Will the user be an admin?"/> <input id="isAdmin" aria-label="Is admin" type="checkbox" name="adminP" value="adminP"/><br/>
                     </div>
                     <div class="modal-footer">
-                    <input type="submit" value="Submit"/>
+                    <input type="submit" value={submit}/>
                     </div>
                   </form>
                 </div>
               </div>
 				    </div>
 				    <div id="right">
-				    <h2>Rooms</h2>
+				    <h2><FormattedMessage id="Rooms"/></h2>
 				    	<div className="lists" style={style}>
 				    		<ul id="listOfRooms">
                                     
 							</ul>
 				    	</div>
-							<button class="addRoom" onClick={this.handleRoomOverlay}>Create a New Room</button>
+							<button class="addRoom" onClick={this.handleRoomOverlay}><FormattedMessage id="Create a New Room"/></button>
 							<div id="modalRooms" class="modal">
                 <div class="modal-content-pic">
                 	<div class='modal-header'>
-                		Insert room name:<br/>
+                		<FormattedMessage id="Insert room name"/>:<br/>
                   		<span class="closeOverlay">&times;</span>
                   	</div>
                   <form onSubmit={this.handleRoomAddition}>
@@ -253,7 +281,7 @@ export default class Group extends React.Component {
                     	<input aria-label="new room name" type="text" name="roomname" id="roomname"/><br/>
                     </div>
                     <div class='modal-footer'>
-                    	<input type="submit" value="Submit"/>
+                    	<input type="submit" value={submit}/>
                     </div>
                   </form>
                 </div>

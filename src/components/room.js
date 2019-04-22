@@ -7,6 +7,22 @@ import Whiteboard from './whiteboard';
 import User from './user';
 import MessageInChat from "./messageInChat";
 import ReactDOM from "react-dom";
+import {IntlProvider, addLocaleData} from 'react-intl';
+import esLocaleData from 'react-intl/locale-data/es';
+import localeEnMessages from "../locales/en";
+import localeEsMessages from "../locales/es";
+import {FormattedMessage} from 'react-intl';
+
+addLocaleData(esLocaleData);
+
+function lenguaSelector(){
+   if (window.navigator.language.startsWith("es")) {
+        return (localeEsMessages);
+   }else{
+        return localeEnMessages;
+   }
+
+}
 
 const axios = require('axios');
 
@@ -141,17 +157,26 @@ export default class Room extends React.Component {
     }
 
     goToUser(){
-		ReactDOM.render(<User />, document.getElementById("root"));
+		ReactDOM.render(
+        <IntlProvider locale={window.navigator.language} messages= {lenguaSelector()}>
+          <User/>
+        </IntlProvider>, document.getElementById("root")
+        );
 	}
 
 	render(){
+		var placeholder="Write something";
+		if (window.navigator.language.startsWith("es")) {
+			placeholder="Escribe algo...";
+		}
+
 		var style = {
       			overflow: 'scroll',
       			height: '400px'
     		};
 		return(
 			<main>
-				<h1 align="Center">{this.state.name} room</h1>
+				<h1 align="Center"><FormattedMessage id="room"/> {this.state.name}</h1>
 				<nav class="navbar navbar-expand-sm bg-dark">
                         <ul class="navbar-nav">
                         <li class="nav-item">
@@ -173,7 +198,7 @@ export default class Room extends React.Component {
                 </div>
 				<div id="container">
 					<div id="left">
-					<h2 id="title1">Canvas in the room</h2>
+					<h2 id="title1"><FormattedMessage id="Canvas in the room"/></h2>
 				    	<div id="lista" style={style}>
 				    		{this.state.canvases.map( (e,i) => <CanvasInRoom key={i} char={e}/>)}
 				    	</div>
@@ -184,10 +209,10 @@ export default class Room extends React.Component {
 				    		{this.state.messages.map( (e,i) => <MessageInChat key={i} char={e}/>)}
 				    		{this.state.messagesNov.map( (e,i) => <MessageInChat key={i} char={e}/>)}
 				    	</div>
-				    	Message: <input type='text' aria-label='write'
+				    	<FormattedMessage id="Message"/>: <input type='text' aria-label='write'
                    			onChange={e => this.handleInputChange(e)} 
-                   			defaultValue={this.state.message} placeholder="Write something..."/>
-  						<button id="send" onClick={this.addMessage.bind(this)}>Send</button>
+                   			defaultValue={this.state.message} placeholder={placeholder}/>
+  						<button id="send" onClick={this.addMessage.bind(this)}><FormattedMessage id="Send"/></button>
   						<br/>
 				    </div>
 				</div>

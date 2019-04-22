@@ -3,7 +3,22 @@ import '../css/login.css';
 import User from "./user.js";
 import UserProfile from "./UserProfile";
 import ReactDOM from "react-dom";
+import {IntlProvider, addLocaleData} from 'react-intl';
+import esLocaleData from 'react-intl/locale-data/es';
+import localeEnMessages from "../locales/en";
+import localeEsMessages from "../locales/es";
 import {FormattedMessage} from 'react-intl';
+
+addLocaleData(esLocaleData);
+
+function lenguaSelector(){
+   if (window.navigator.language.startsWith("es")) {
+        return (localeEsMessages);
+   }else{
+        return localeEnMessages;
+   }
+
+}
 
 const axios = require('axios');
 
@@ -47,7 +62,11 @@ export default class Login extends React.Component {
         UserProfile.setID(rr[2]);
         UserProfile.setEmail(rr[3]);
         alert("Success!");
-        ReactDOM.render(<User/>, document.getElementById("root"));
+        ReactDOM.render(
+        <IntlProvider locale={window.navigator.language} messages= {lenguaSelector()}>
+          <User/>
+        </IntlProvider>, document.getElementById("root")
+        );
         console.log(UserProfile.getName());
         console.log(UserProfile.getID());
         console.log(UserProfile.getEmail());
