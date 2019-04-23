@@ -155,7 +155,11 @@ export default class Room extends React.Component {
      }
 
     goToDrawing(){
-        ReactDOM.render(<Whiteboard />, document.getElementById("root"));
+        ReactDOM.render(
+        <IntlProvider locale={window.navigator.language} messages= {lenguaSelector()}>
+            <Whiteboard/>
+        </IntlProvider>, document.getElementById("root")
+        );
     }
 
     goToUser(){

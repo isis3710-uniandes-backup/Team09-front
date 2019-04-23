@@ -32,5 +32,6 @@
 	"Insert the name of the new group":"Pon el nombre del nuevo grupo",
 	"Insert username of the user to add":"Pon el ususario a agregar",
 	"Will the user be an admin?":"¿Sera administrador?",
-	"Insert room name":"Pon el nombre de la habitación"
+	"Insert room name":"Pon el nombre de la habitación",
+	"Comments":"Comentarios"
 }

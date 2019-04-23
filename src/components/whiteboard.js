@@ -215,6 +215,14 @@ export default class Whiteboard extends React.Component {
     }
 
     openNav() {
+      var submit="Submit";
+      var says="says";
+      var inputDesc="Input a comment for the canvas!";
+          if (window.navigator.language.startsWith("es")) {
+              submit="Enviar";
+              says="dice";
+              inputDesc="!Pon un comentario para el canvas!";
+         }
       var ul = document.getElementById("commentList");
       var temp = this;
       var list;
@@ -229,9 +237,10 @@ export default class Whiteboard extends React.Component {
             var li = document.createElement("li");
             var cont = document.createElement("div");
             cont.setAttribute("className", "commentBox");
-            cont.appendChild(document.createTextNode(`${list[i].user} says:`));
+            cont.setAttribute("class", "commentBox");
+            cont.appendChild(document.createTextNode(`${list[i].user} ${says}:`));
             cont.appendChild(document.createElement("br"));
-            cont.appendChild(document.createTextNode(`${list[i].comm}`))
+            cont.appendChild(document.createTextNode(`${list[i].comm}`));
             li.appendChild(cont);
             ul.appendChild(li);
             var spaceLi = document.createElement("li");
@@ -243,13 +252,15 @@ export default class Whiteboard extends React.Component {
           console.log("created form");
           var inp = document.createElement("input");
           inp.setAttribute("type", "text");
-          inp.setAttribute("placeholder", "Input a comment for the canvas!");
+          inp.setAttribute("aria-label", "add comment");
+          inp.setAttribute("placeholder", inputDesc);
           inp.setAttribute("id", "commentField");
           comment.appendChild(inp);
           comment.appendChild(document.createElement("br"));
           var subm = document.createElement("input");
           subm.setAttribute("type", "submit");
-          subm.setAttribute("value","Submit");
+          subm.setAttribute("id","env");
+          subm.setAttribute("value",submit);
           comment.appendChild(subm);
           commentLi.appendChild(comment);
           ul.appendChild(commentLi);
@@ -275,10 +286,12 @@ export default class Whiteboard extends React.Component {
 
     render() {
         return (
+        <main>
           <div id="main">
             <div>
                 <canvas class="whiteboard"></canvas>
                 <div class="colors">
+                    <h1>Canvas</h1>
                     <div class="color black"></div>
                     <div class="color red"></div>
                     <div class="color green"></div>
@@ -286,20 +299,20 @@ export default class Whiteboard extends React.Component {
                     <div class="color yellow"></div>
                 </div>
                 <div class ="eraser"></div>
-                <a href="#" class="float">
+                <a href="#" aria-label="comments" class="float">
                   <i onClick={this.openNav} class="fa fa-envelope my-float"></i>
                 </a>
                 <div class="label-container">
-                  <div class="label-text">Comments</div>
+                  <div class="label-text"><FormattedMessage id="Comments"/></div>
                   <i class="fa fa-play label-arrow"></i>
                 </div>
                 <div id="mySidebar" class="sidebar">
-                  <a href="#" class="closebtn" onClick={this.closeNav}>&times;</a>
+                  <a href="#" aria-label="menu" class="closebtn" onClick={this.closeNav}>&times;</a>
                   <ul id="commentList">
 
                   </ul>
                 </div>
-                <a href="#" class="float2">
+                <a href="#" aria-label="open menu" class="float2">
                   <i onClick={this.openMenu} class="fas fa-caret-left my-float"></i>
                 </a>
                 <div class="label-container2">
@@ -322,6 +335,7 @@ export default class Whiteboard extends React.Component {
                 </div>
             </div>
           </div>
+        </main>
         );
     }
 

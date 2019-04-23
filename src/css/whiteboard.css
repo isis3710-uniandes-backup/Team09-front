@@ -184,6 +184,16 @@ a.float2:hover + div.label-container2{
   padding: 20px;
 }
 
+#commentField{
+  width:80%;
+  margin-left:5%;
+}
+
+#env{
+  margin-left: 5%;
+  margin-top: 2px;
+}
+
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {
   .sidebar {padding-top: 15px;}

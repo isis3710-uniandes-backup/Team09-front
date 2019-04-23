@@ -32,5 +32,6 @@
 	"Insert the name of the new group":"Insert the name of the new group",
 	"Insert username of the user to add":"Insert username of the user to add",
 	"Will the user be an admin?":"Will the user be an admin?",
-	"Insert room name":"Insert room name"
+	"Insert room name":"Insert room name",
+	"Comments":"Comments"
 }
