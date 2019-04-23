@@ -280,7 +280,7 @@ export default class Group extends React.Component {
                     </div>
                   <form onSubmit={this.handleUserAddition}>
                     <div class="modal-body">
-                    <input id="uName" aria-label="username to add" type="text" name="usern"/><br/>
+                    <input id="uName" aria-label="username to add" type="text" name="usern" required/><br/>
 					<FormattedMessage id="Will the user be an admin?"/> <input id="isAdmin" aria-label="Is admin" type="checkbox" name="adminP" value="adminP"/><br/>
                     </div>
                     <div class="modal-footer">
@@ -306,7 +306,7 @@ export default class Group extends React.Component {
                   	</div>
                   <form onSubmit={this.handleRoomAddition}>
                   	<div class='modal-body'>
-                    	<input aria-label="new room name" type="text" name="roomname" id="roomname"/><br/>
+                    	<input aria-label="new room name" type="text" name="roomname" id="roomname" required/><br/>
                     </div>
                     <div class='modal-footer'>
                     	<input type="submit" value={submit}/>
