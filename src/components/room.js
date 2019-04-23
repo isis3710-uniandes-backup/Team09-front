@@ -12,6 +12,7 @@ import esLocaleData from 'react-intl/locale-data/es';
 import localeEnMessages from "../locales/en";
 import localeEsMessages from "../locales/es";
 import {FormattedMessage} from 'react-intl';
+import Group from "./group";
 
 addLocaleData(esLocaleData);
 
@@ -173,6 +174,14 @@ export default class Room extends React.Component {
         );
     }
 
+    goToGroup(){
+        ReactDOM.render(
+        <IntlProvider locale={window.navigator.language} messages= {lenguaSelector()}>
+            <Group groupid={this.state.groupId}/>
+        </IntlProvider>, document.getElementById("root")
+        );
+    }
+
     goToUser(){
 		ReactDOM.render(
         <IntlProvider locale={window.navigator.language} messages= {lenguaSelector()}>
@@ -210,7 +219,7 @@ export default class Room extends React.Component {
                         </ul>
                     </nav>
 				<div class="container">
-				<h1 align="Center"><FormattedMessage id="room"/> {this.state.name}</h1>
+				<h1 align="Center"><FormattedMessage id="room"/> {this.state.name} <FormattedMessage id="from"/> <a href="#" onClick={this.goToGroup.bind(this)}><FormattedMessage id="group"/></a></h1>
 				
                  <div>
                     

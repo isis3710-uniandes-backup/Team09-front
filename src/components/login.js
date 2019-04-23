@@ -45,6 +45,12 @@ export default class Login extends React.Component {
     });
   }
   handleSubmit(event) {
+      var notfound="User not found";
+      var wrongpsw="Send Recovery email";
+    if (window.navigator.language.startsWith("es")) {
+      var notfound="No se encuentra e usuario";
+      var wrongpsw="La clave no es valida";
+    }
     event.preventDefault();
     console.log('About to axios?')
    var rr = new Array(4);
@@ -56,6 +62,7 @@ export default class Login extends React.Component {
       console.log(rr);
     }).catch(function(error){
       console.log(error);
+      alert("No se encuentra el usuario");
     }).then(()=>{
       if(rr[0]=== this.state.password){
         UserProfile.setName(rr[1]);
@@ -72,7 +79,8 @@ export default class Login extends React.Component {
         console.log(UserProfile.getEmail());
       }
       else{
-        alert("Nah mon "  + rr+ " vs " + this.state.password);
+        //alert("Nah mon "  + rr+ " vs " + this.state.password);
+        alert(wrongpsw);
       }
     });
   }

@@ -55,7 +55,7 @@ export default class Group extends React.Component {
 			this.setState(s);
 			console.log(this.state);
 
-			var consulta
+		var consulta;
 		axios.get('/api/groups/'+ this.state.groupID+'/users').then(function(response){
 			console.log(response.data);
 			consulta=response.data;

@@ -33,5 +33,7 @@
 	"Insert username of the user to add":"Pon el ususario a agregar",
 	"Will the user be an admin?":"¿Sera administrador?",
 	"Insert room name":"Pon el nombre de la habitación",
-	"Comments":"Comentarios"
+	"Comments":"Comentarios",
+	"from":"de",
+	"group":"grupo"
 }

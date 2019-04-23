@@ -33,5 +33,7 @@
 	"Insert username of the user to add":"Insert username of the user to add",
 	"Will the user be an admin?":"Will the user be an admin?",
 	"Insert room name":"Insert room name",
-	"Comments":"Comments"
+	"Comments":"Comments",
+	"from":"from",
+	"group":"group"
 }
