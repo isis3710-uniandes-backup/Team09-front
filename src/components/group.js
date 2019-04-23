@@ -222,6 +222,13 @@ export default class Group extends React.Component {
 			a.onclick = this.handleRoomGo.bind(lastID);
 			li.appendChild(a);
 			list.appendChild(li);
+		axios.post('http://localhost:3001/api/chats/create', {
+			roomId:lastID
+		}).then((response1)=>{
+			console.log(response1);
+		}).catch(function(err1){
+			console.log(err1);
+		});
 		}).catch(function(err){
 				console.log(err);
 		});
