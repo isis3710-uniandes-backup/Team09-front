@@ -50,4 +50,6 @@ Nuestro programa por el momento ofrece las siguiente funcionalidades a los usuar
 El api de nuestro programa permite hacer mucho más que las funcionalidades implementadas, sin embargo, para el funcionamiento de nuestra aplicación, muchas de las funcionalidades del API No son necesarias. Por ejemplo, al usuario no le interesa borrar su usuario o el canvas, así como no le interesa ver el registro de todos los usuarios sobre un canvas por el momento. Para una entrega futura, quizá sería interesante revisar estos conceptos como "Funcionalidades extra".
 
 
+## 6) Youtube Video Functioning:
 
+https://youtu.be/IYQK8KBReDg
