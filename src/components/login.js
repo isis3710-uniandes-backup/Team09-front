@@ -8,6 +8,8 @@ import esLocaleData from 'react-intl/locale-data/es';
 import localeEnMessages from "../locales/en";
 import localeEsMessages from "../locales/es";
 import {FormattedMessage} from 'react-intl';
+const hash = require('hash.js');
+
 
 addLocaleData(esLocaleData);
 
@@ -55,14 +57,13 @@ export default class Login extends React.Component {
     event.preventDefault();
     console.log('About to axios?')
    var rr = new Array(4);
-    axios.post('/api/login/'+ this.state.username,{'password':this.state.password}).then(function(response){
+    var hashedP= hash.sha256().update(this.state.password).digest("hex");
+    axios.post('/api/login/'+ this.state.username,{'password':hashedP}).then(function(response){
       rr[0]=response.data.username;
       rr[1]=response.data.userID;
       rr[2]=response.data.email;
       rr[3]=response.data.token;
-      console.log(rr);
     }).catch(function(error){
-      console.log(error);
       alert(notfound);
     }).then(()=>{
       if(rr[0]){
@@ -76,9 +77,6 @@ export default class Login extends React.Component {
           <User/>
         </IntlProvider>, document.getElementById("root")
         );
-        console.log(UserProfile.getName());
-        console.log(UserProfile.getID());
-        console.log(UserProfile.getEmail());
       }
     });
   }
@@ -117,10 +115,12 @@ export default class Login extends React.Component {
 
   submitNewUser(event){
     event.preventDefault();
+    var hashed = hash.sha256().update(this.state.password).digest("hex");
+    console.log(hashed);
     axios.post('/api/users/create/',{
       username: this.state.username,
       email: this.state.email,
-      password: this.state.password
+      password: hashed
     }).then(function(response){
       console.log(response);
     }).catch(function(error){
