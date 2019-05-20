@@ -10,6 +10,7 @@ import esLocaleData from 'react-intl/locale-data/es';
 import localeEnMessages from "../locales/en";
 import localeEsMessages from "../locales/es";
 import {FormattedMessage} from 'react-intl';
+import Chart from './chart';
 
 addLocaleData(esLocaleData);
 
@@ -57,6 +58,7 @@ export default class Group extends React.Component {
 			console.log(this.state);
 
 		var consulta;
+		var admins=0;
 		axios.get('/api/groups/'+ this.state.groupID+'/users',{headers:{ 'authorization': "Bearer "+localStorage.getItem("token") }}
 			).then(function(response){
 			console.log(response.data);
@@ -70,10 +72,12 @@ export default class Group extends React.Component {
             for (var i =0;i< consulta.length; i++){
                 console.log(consulta[i]);
                 var li = document.createElement("li");
+                admins=admins+consulta[i].isAdmin;
                 var text = document.createTextNode(consulta[i].username);
                 li.appendChild(text);
                 list.appendChild(li);
             }
+            console.log("HHHHHH"+this.state.nAdmins);
 	    });
 
 	    var consulta1;
@@ -266,8 +270,8 @@ export default class Group extends React.Component {
                 <li class="nav-item">
                    <a class="nav-link" href="#" onClick={this.logOut}>Log Out</a>
                 </li>
-          	</ul>
-        </nav>
+          	 </ul>
+        		</nav>
 				<div class="container"> 
 				<h1 align="Center"><FormattedMessage id="The group"/> {this.state.name}</h1>
 				<div id="container">
@@ -323,6 +327,10 @@ export default class Group extends React.Component {
               </div>
 				    </div>
 				</div>
+		</div>
+		<div id="chart" align="center">
+			<h3>Users vs Admins inside the group</h3>
+			<Chart group={this.state.groupID}/>
 		</div>
 			</main>
 		);

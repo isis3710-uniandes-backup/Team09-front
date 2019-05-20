@@ -5,6 +5,7 @@
   "proxy": "http://localhost:3001",
   "dependencies": {
     "auth0-js": "^9.10.2",
+    "d3": "^5.9.2",
     "axios": "^0.18.0",
     "bootstrap": "^4.3.1",
     "canvg": "^1.5.3",
