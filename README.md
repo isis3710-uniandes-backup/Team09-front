@@ -1,3 +1,6 @@
+# To view the project enter: https://logicdrawing.herokuapp.com
+# Para ver el proyecto, entrar a: https://logicdrawing.herokuapp.com
+
 # Español
 
 *Este proyecto hace parte del curso "Programación con Tecnologías Web" de Ingeniería de Sistemas de la Universidad de los Andes.
