@@ -1,5 +1,6 @@
 # To view the project enter: https://logicdrawing.herokuapp.com
 # Para ver el proyecto, entrar a: https://logicdrawing.herokuapp.com
+# Video Heroku: https://youtu.be/HfcH11G_rFw
 
 # Español
 
