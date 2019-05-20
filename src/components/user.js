@@ -54,7 +54,8 @@ export default class User extends React.Component{
             }
         }
         var myGroups;
-        axios.get(`http://localhost:3001/api/groups/user/${UserProfile.getID()}`).then(function(response){
+        console.log("Bearer "+localStorage.getItem("token"));
+        axios.get('/api/groups/user/'+UserProfile.getID(), {headers:{ 'authorization': "Bearer "+localStorage.getItem("token") }}).then(function(response){
             myGroups=response.data;
             console.log(myGroups);
         }).catch(function(err){
@@ -94,12 +95,12 @@ export default class User extends React.Component{
 
     handleSubmitURL(event){
         event.preventDefault();
-        axios.put(`http://localhost:3001/api/users/edit/${UserProfile.getID()}`,{
+        axios.put(`/api/users/edit/${UserProfile.getID()}`,{
             'username': document.getElementById("newUsername").value,
             'email': document.getElementById("newEmail").value,
             'password': document.getElementById("newPassword").value,
             'profilePicturePath': document.getElementById("newUrl").value,
-        });
+        },{headers:{ 'authorization': "Bearer "+localStorage.getItem("token") }});
     }
 
     logOut(){
@@ -125,14 +126,14 @@ export default class User extends React.Component{
         event.preventDefault();
         console.log("Passi");
         var gname =document.getElementById("gName").value;
-        axios.post(`http://localhost:3001/api/groups/create`,{
+        axios.post(`/api/groups/create`,{
             'name': gname
-        }).then(function (response) {
+        },{headers:{ 'authorization': "Bearer "+localStorage.getItem("token") }}).then(function (response) {
             var lastID = response.data[1].lastID;
-            axios.post('http://localhost:3001/api/groups/admins', {
+            axios.post('/api/groups/admins', {
                 "groupId": lastID, 
                 "userId": UserProfile.getID(),
-            }).then(()=>{
+            },{headers:{ 'authorization': "Bearer "+localStorage.getItem("token") }}).then(()=>{
                 var list = document.getElementById("listOfGroups");
                 var li = document.createElement("li");
                 var a = document.createElement('a');

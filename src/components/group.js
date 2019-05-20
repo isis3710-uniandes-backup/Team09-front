@@ -40,7 +40,8 @@ export default class Group extends React.Component {
 
 	componentWillMount(){
 		var o;
-		axios.get(`http://localhost:3001/api/groups/${this.props.groupid}`).then(function(response){
+		axios.get('/api/groups/'+this.props.groupid,{headers:{ 'authorization': "Bearer "+localStorage.getItem("token") }}
+			).then(function(response){
 			o = response.data;
 			console.log(o);
 		}).catch((err)=>{
@@ -56,7 +57,8 @@ export default class Group extends React.Component {
 			console.log(this.state);
 
 		var consulta;
-		axios.get('/api/groups/'+ this.state.groupID+'/users').then(function(response){
+		axios.get('/api/groups/'+ this.state.groupID+'/users',{headers:{ 'authorization': "Bearer "+localStorage.getItem("token") }}
+			).then(function(response){
 			console.log(response.data);
 			consulta=response.data;
 	    }).catch(function(error){
@@ -75,7 +77,8 @@ export default class Group extends React.Component {
 	    });
 
 	    var consulta1;
-		axios.get('/api/groups/'+ this.state.groupID+'/rooms').then(function(response){
+		axios.get('/api/groups/'+ this.state.groupID+'/rooms',{headers:{ 'authorization': "Bearer "+localStorage.getItem("token") }}
+			).then(function(response){
 			console.log(response.data);
 			consulta1=response.data;
 	    }).catch(function(error){
@@ -168,17 +171,18 @@ export default class Group extends React.Component {
 		var userId=-1;
 		var username = document.getElementById("uName").value;
 		var isAdmin = document.getElementById("isAdmin").checked;
-		axios.get('http://localhost:3001/api/users/name/'+username).then(function(response){
+		axios.get('/api/users/name/'+username, {headers:{ 'authorization': "Bearer "+localStorage.getItem("token") }}).then(function(response){
 			userId=response.data[0].userID;
 			console.log(userId);
 		}).catch(function(err){
 			console.log(err);
 		}).then(()=>{
 			if(isAdmin){
-				axios.post('http://localhost:3001/api/groups/admins', {
+				axios.post('/api/groups/admins', {
 					"groupId": that.state.groupID, 
 					"userId": userId
-				}).then(()=>{
+				},{headers:{ 'authorization': "Bearer "+localStorage.getItem("token") }}
+				).then(()=>{
 					var list = document.getElementById("listOfUsers");
 					var li = document.createElement("li");
 					li.appendChild(document.createTextNode(username));
@@ -188,10 +192,11 @@ export default class Group extends React.Component {
 				});
 			}
 			else{
-				axios.post('http://localhost:3001/api/groups/users', {
+				axios.post('/api/groups/users', {
 				"groupId": that.state.groupID, 
 				"userId": userId
-			}).then(()=>{
+			},{headers:{ 'authorization': "Bearer "+localStorage.getItem("token") }}
+			).then(()=>{
 				var list = document.getElementById("listOfUsers");
 				var li = document.createElement("li");
 				li.appendChild(document.createTextNode(username));
@@ -207,10 +212,11 @@ export default class Group extends React.Component {
 		let that = this;
 		event.preventDefault();
 		var roomname = document.getElementById("roomname").value;
-		axios.post('http://localhost:3001/api/rooms/create', {
+		axios.post('/api/rooms/create', {
 					"groupId": that.state.groupID, 
 					"name": roomname
-		}).then((response)=>{
+		},{headers:{ 'authorization': "Bearer "+localStorage.getItem("token") }}
+		).then((response)=>{
 			var list = document.getElementById("listOfRooms");
 			var lastID = response.data[1].lastID;
 			var li = document.createElement("li");
@@ -222,9 +228,10 @@ export default class Group extends React.Component {
 			a.onclick = this.handleRoomGo.bind(lastID);
 			li.appendChild(a);
 			list.appendChild(li);
-		axios.post('http://localhost:3001/api/chats/create', {
+		axios.post('/api/chats/create', {
 			roomId:lastID
-		}).then((response1)=>{
+		},{headers:{ 'authorization': "Bearer "+localStorage.getItem("token") }}
+		).then((response1)=>{
 			console.log(response1);
 		}).catch(function(err1){
 			console.log(err1);

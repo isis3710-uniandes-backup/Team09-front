@@ -46,7 +46,8 @@ export default class Room extends React.Component {
 
 	componentWillMount(){
 		var consulta0;
-		axios.get('/api/rooms/'+ this.state.roomId).then(function(response){
+		axios.get('/api/rooms/'+ this.state.roomId, {headers:{ 'authorization': "Bearer "+localStorage.getItem("token") }}
+			).then(function(response){
 			console.log(response.data);
 			consulta0=response.data;
 	    }).catch(function(error){
@@ -57,7 +58,8 @@ export default class Room extends React.Component {
 	    });
 
 		var consulta;
-		axios.get('/api/rooms/'+ this.state.roomId+'/canvas').then(function(response){
+		axios.get('/api/rooms/'+ this.state.roomId+'/canvas', {headers:{ 'authorization': "Bearer "+localStorage.getItem("token") }}
+			).then(function(response){
 			console.log(response.data);
 			consulta=response.data;
 	    }).catch(function(error){
@@ -68,7 +70,8 @@ export default class Room extends React.Component {
 	    });
 
     	var consulta1;
-		axios.get('/api/rooms/'+ this.state.roomId+'/messages').then(function(response){
+		axios.get('/api/rooms/'+ this.state.roomId+'/messages', {headers:{ 'authorization': "Bearer "+localStorage.getItem("token") }}
+			).then(function(response){
 			console.log(response.data);
 			consulta1=response.data;
 	    }).catch(function(error){
@@ -79,7 +82,8 @@ export default class Room extends React.Component {
 	    });
 
 	    var consulta2;
-		axios.get('/api/rooms/'+ this.state.roomId+'/chats').then(function(response){
+		axios.get('/api/rooms/'+ this.state.roomId+'/chats', {headers:{ 'authorization': "Bearer "+localStorage.getItem("token") }}
+			).then(function(response){
 			console.log(response.data);
 			consulta2=response.data;
 	    }).catch(function(error){
@@ -152,7 +156,8 @@ export default class Room extends React.Component {
       	user: this.state.user,
       	msg: this.state.message,
       	chatId: this.state.chatId
-    	}).then(function(response){
+    	},{headers:{ 'authorization': "Bearer "+localStorage.getItem("token") }}
+    	).then(function(response){
       		console.log(response);
     	}).catch(function(error){
       		console.log(error);
